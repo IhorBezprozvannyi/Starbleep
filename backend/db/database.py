@@ -1,0 +1,1 @@
+#define the tables (Mission, RoverData, OrbiterData, SensorReading)

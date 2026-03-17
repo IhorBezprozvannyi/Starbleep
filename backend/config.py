@@ -1,0 +1,1 @@
+#all settings like NASA API keys, DATABASE url, API urls) Every other file imports from here instead of hardcoding values.
