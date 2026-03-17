@@ -1,0 +1,1 @@
+#sets up logging so I can see whats happening when scripts run .
