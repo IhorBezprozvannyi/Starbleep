@@ -1,4 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Anta&display=swap');
+@font-face {
+    font-family: "Anta";
+    src: url('../fonts/Anta-Regular.woff2') format('woff2');
+    font-display: swap;
+}
 
 *{
     padding : 0;
@@ -16,8 +20,6 @@ body{
     background-repeat: repeat;
     background-attachment: fixed;
     background-size: 110% ;
-    display: flex;
-    flex-direction: column;
     min-height: 100vh;
     width: 100%;
 }
@@ -32,9 +34,27 @@ nav{
     flex-direction: row;
     justify-content: space-between;
     font-size: 2vw;
-    padding: 2vw 0vw;
+    height: 15vh;
+    z-index: 2;
+}
 
+nav a {
+    position: relative;
+}
 
+nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: white;
+    transition: width 0.3s ease;
+}
+
+nav a:hover::after {
+    width: 100%;
 }
 
 .logoDiv{
@@ -63,34 +83,75 @@ nav{
 
 @keyframes bleep{
     0%{
-        transform:  translate(-50%, -50%) scale(0.9);
+        transform: scale(0.9);
         opacity: 0.2;
     }
     100%{
-        transform: translate(-50%, -50%) scale(1);
+        transform: scale(1);
         opacity: 1;
     }
 }
 
-.mainLogo{
-    position: absolute; /* or fixed */
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 13vw;
-    animation: 5s bleep ease forwards;
-    animation-direction: alternate;
-    will-change: transform, opacity
+@keyframes pulse {
+    0%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 0.8;
+    }
 }
 
+main{
+    height: 85vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center ;
+}
 
+.mainLogo{
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.mainLogo.visible{
+    opacity: 1;
+    transform: translateY(0);
+    font-size: 13vw;
+    animation: 
+        7s bleep ease forwards,
+        1.5s pulse ease-in-out infinite 7s;
+    animation-direction: alternate;
+    will-change: transform, opacity;
+}
+
+.fade-title.hiding {
+    opacity: 0;
+    transform: translateY(0);
+}
 
 .explore{
-    position: absolute; /* or fixed */
-    top: 80%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     background-color: rgba(245, 245, 220, 0);
-    font-size: 2vw;
+    font-size: 2.5vw;
     border: none;
+    margin-top: 5vw;
+}
+
+.arrow{
+    width: 10vh;
+    margin-top: 1vw;
+    filter: invert(1) brightness(90%);
+}
+
+.planets{
+    min-height: 100vh;
+    width: 100%;;
+}
+
+.orbit{
+    border: 0.3vw dotted white;
+    border-radius: 50%;
+    padding: 5vw;
 }
