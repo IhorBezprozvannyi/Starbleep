@@ -101,6 +101,28 @@ nav a:hover::after {
     }
 }
 
+
+@keyframes fade-out{
+    from{
+        scale: 1;
+        opacity: 1;
+    }
+    to{
+        scale: 0.5;
+        opacity: 0;
+    }
+}
+
+@keyframes fade-in{
+    from{
+        scale: 0.5;
+        opacity: 0;
+    }
+    to{
+        scale: 1;
+        opacity: 1;
+    }
+}
 main{
     height: 85vh;
     width: 100%;
@@ -112,24 +134,18 @@ main{
 
 .mainLogo{
     opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
+    font-size: 13vw;
 }
 
 .mainLogo.visible{
     opacity: 1;
-    transform: translateY(0);
     font-size: 13vw;
     animation: 
         7s bleep ease forwards,
         1.5s pulse ease-in-out infinite 7s;
     animation-direction: alternate;
-    will-change: transform, opacity;
-}
 
-.fade-title.hiding {
-    opacity: 0;
-    transform: translateY(0);
+    will-change: transform, opacity;
 }
 
 .explore{
@@ -137,21 +153,71 @@ main{
     font-size: 2.5vw;
     border: none;
     margin-top: 5vw;
+    animation: fade-out linear;
+    animation-timeline: view(0vw 40vw);
 }
 
 .arrow{
     width: 10vh;
     margin-top: 1vw;
     filter: invert(1) brightness(90%);
+    animation: fade-out linear;
+    animation-timeline: view(0vw 30vw);
 }
 
-.planets{
-    min-height: 100vh;
-    width: 100%;;
+.planets {
+    height: 90vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
 }
 
-.orbit{
-    border: 0.3vw dotted white;
+.solar-system {
+    position: relative;
+    width: 70vw;
+    height: 70vw;
+}
+
+.orbit {
+    position: absolute;
+    border: 0.3vw dotted rgb(255, 255, 255);
     border-radius: 50%;
-    padding: 5vw;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotateX(75deg);
+}
+
+@keyframes spin {
+    from { transform: translate(-50%, -50%) rotateX(75deg) rotateZ(0deg); }
+    to   { transform: translate(-50%, -50%) rotateX(75deg) rotateZ(360deg); }
+}
+
+.earth-orb { width: 30vw; height: 30vw; }
+.moon-orb  { width: 50vw; height: 50vw; }
+.mars-orb  { width: 70vw; height: 70vw; }
+
+.mars-orb  { animation: spin 30s linear infinite; }
+.moon-orb  { animation: spin 20s linear infinite; }
+.earth-orb { animation: spin 12s  linear infinite; }
+
+.planet {
+    position: absolute;
+    border-radius: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.earth { width: 3vw;   height: 11.5vw; background: #4fa3e0; top: -5.75vw; }
+.moon  { width: 2vw;   height: 7.7vw;  background: #aaaaaa; top: -3.85vw; }
+.mars  { width: 2.5vw; height: 9.6vw;  background: #c1440e; top: -4.8vw;  }
+
+.mars-orb  .planet { animation: counter-spin 30s linear infinite; }
+.moon-orb  .planet { animation: counter-spin 20s linear infinite; }
+.earth-orb .planet { animation: counter-spin 12s  linear infinite; }
+
+@keyframes counter-spin {
+    from { transform: translateX(-20%) rotateZ(0deg); }
+    to   { transform: translateX(-20%) rotateZ(-360deg); }
 }
