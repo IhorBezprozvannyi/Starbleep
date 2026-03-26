@@ -1,1 +1,2 @@
-#all settings like NASA API keys, DATABASE url, API urls) Every other file imports from here instead of hardcoding values.
+NASA_API_KEY = "DEMO_KEY"
+DATABASE_URL = "sqlite:///starbleep.db"
