@@ -130,6 +130,8 @@ main{
     flex-direction: column;
     justify-content: center;
     align-items: center ;
+    animation: fade-out linear;
+    animation-timeline: view(0vw 30vw);
 }
 
 .mainLogo{
@@ -153,31 +155,35 @@ main{
     font-size: 2.5vw;
     border: none;
     margin-top: 5vw;
-    animation: fade-out linear;
-    animation-timeline: view(0vw 40vw);
 }
 
 .arrow{
     width: 10vh;
     margin-top: 1vw;
-    filter: invert(1) brightness(90%);
-    animation: fade-out linear;
-    animation-timeline: view(0vw 30vw);
+    filter: invert(1) ;
 }
 
 .planets {
-    height: 90vh;
+    height: 100vh;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    flex-direction: column;
+    animation: fade-in linear;
+    animation-timeline: view(50vw 0);
+}
+
+.planets h1{
+    margin-top: 10vw;
+    font-size: 2.5vw;
 }
 
 .solar-system {
     position: relative;
     width: 70vw;
-    height: 70vw;
+    height: 50vw;
 }
 
 .orbit {
@@ -199,7 +205,7 @@ main{
 .mars-orb  { width: 70vw; height: 70vw; }
 
 .mars-orb  { animation: spin 30s linear infinite; }
-.moon-orb  { animation: spin 20s linear infinite; }
+.moon-orb  { animation: spin 12s linear infinite, plane 12s linear infinite}
 .earth-orb { animation: spin 12s  linear infinite; }
 
 .planet {
@@ -209,15 +215,21 @@ main{
     transform: translateX(-50%);
 }
 
-.earth { width: 3vw;   height: 11.5vw; background: #4fa3e0; top: -5.75vw; }
-.moon  { width: 2vw;   height: 7.7vw;  background: #aaaaaa; top: -3.85vw; }
-.mars  { width: 2.5vw; height: 9.6vw;  background: #c1440e; top: -4.8vw;  }
+.earth { width: 6vw;   height: 23vw; background: #4fa3e0; top: -11.25vw;}
+.moon  { width: 4vw;   height: 15.4vw;  background: #aaaaaa; top: -8vw; }
+.mars  { width: 5vw; height: 19.2vw;  background: #c1440e; top: -9.6vw; }
 
 .mars-orb  .planet { animation: counter-spin 30s linear infinite; }
-.moon-orb  .planet { animation: counter-spin 20s linear infinite; }
+.moon-orb  .planet { animation: counter-spin 12s linear infinite, plane 12s linear infinite;}
 .earth-orb .planet { animation: counter-spin 12s  linear infinite; }
 
+@keyframes plane{
+    0% {z-index: 0;}
+    50% {z-index: 1;}
+    100% {z-index: 0;}
+}
+
 @keyframes counter-spin {
-    from { transform: translateX(-20%) rotateZ(0deg); }
-    to   { transform: translateX(-20%) rotateZ(-360deg); }
+    from { transform: translateX(-20%) rotateZ(0deg);}
+    to   { transform: translateX(-20%) rotateZ(-360deg);}
 }
