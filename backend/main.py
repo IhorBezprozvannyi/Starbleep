@@ -1,113 +1,45 @@
 # FastAPI app. what starts my api server (uvicorn main:app)
-from fastapi import FastAPI, Depends
-from typing import List
-from sqlalchemy.orm import Session
-from pydantic import BaseModel
+from fastapi import FastAPI
+import sqlite3 
 
-from db.database import SessionLocal
-from db.models import MarsExpressHRSC, MarsExpressOmega, MarsExpressMarsis, MarsExpressPfs
+app =FastAPI() #initialise
 
-app = FastAPI()
+@app.get("/missions") #defining the get route for url
+def get_missions(target:str = None) : 
 
-# Schemas
-class HRSCImage(BaseModel):
-    product_id: str
-    observation_id: str
-    start_time: str
-    latitude: float
-    longitude: float
-    resolution: float
-    file_url: str
-    file_size_mb: float
+    conn = sqlite3.connect('starbleep.db') #open connection
+    conn.row_factory = sqlite3.Row #return data as dictonaires not tuples
+    cursor = conn.cursor() #create cursor object to execute SQL commands
 
-    class Config:
-        orm_mode = True
+    if target  : 
+        cursor.execute("SELECT * FROM missions WHERE target = ? COLLATE NOCASE", (target,)) #? for preventing sql injection, and comma to tell its tuple with one item
+    else : 
+        cursor.execute("SELECT * FROM missions") #if no target specified, return all missions
+
+    rows = cursor.fetchall() #fetch all results
+    conn.close() #close connection
+    return [dict(row) for row in rows] #convert databse rows in list of dictionaries, fastapi will convert the list into json for ihor
 
 
-class OmegaProduct(BaseModel):
-    product_id: str
-    observation_id: str
-    start_time: str
-    latitude: float
-    longitude: float
-    wavelength_min: float
-    wavelength_max: float
-    file_url: str
 
-    class Config:
-        orm_mode = True
+from fastapi.responses import HTMLResponse
 
-
-class MarsisProduct(BaseModel):
-    product_id: str
-    observation_id: str
-    start_time: str
-    latitude: float
-    longitude: float
-    frequency_mhz: float
-    penetration_depth_km: float
-    file_url: str
-
-    class Config:
-        orm_mode = True
-
-
-class PfsProduct(BaseModel):
-    product_id: str
-    observation_id: str
-    start_time: str
-    latitude: float
-    longitude: float
-    temperature_k: float
-    co2_concentration: float
-    file_url: str
-
-    class Config:
-        orm_mode = True
-
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-
-@app.get("/")
-def root():
-    return {"message": "Starbleep backend is running"}
-
-
-@app.get("/mars-express/hrsc", response_model=List[HRSCImage])
-def get_hrsc_images(skip: int = 0, limit: int = 20, db: Session = Depends(get_db)):
-    images = db.query(MarsExpressHRSC).offset(skip).limit(limit).all()
-    return images
-
-
-@app.get("/mars-express/omega", response_model=List[OmegaProduct])
-def get_omega_products(skip: int = 0, limit: int = 20, db: Session = Depends(get_db)):
-    results = db.query(MarsExpressOmega).offset(skip).limit(limit).all()
-    return results
-
-
-@app.get("/mars-express/marsis", response_model=List[MarsisProduct])
-def get_marsis_products(skip: int = 0, limit: int = 20, db: Session = Depends(get_db)):
-    results = db.query(MarsExpressMarsis).offset(skip).limit(limit).all()
-    return results
-
-
-@app.get("/mars-express/pfs", response_model=List[PfsProduct])
-def get_pfs_products(skip: int = 0, limit: int = 20, db: Session = Depends(get_db)):
-    results = db.query(MarsExpressPfs).offset(skip).limit(limit).all()
-    return results
-
-
-@app.get("/mars-express/stats")
-def get_stats(db: Session = Depends(get_db)):
-    return {
-        "hrsc_images": db.query(MarsExpressHRSC).count(),
-        "omega_products": db.query(MarsExpressOmega).count(),
-        "marsis_products": db.query(MarsExpressMarsis).count(),
-        "pfs_products": db.query(MarsExpressPfs).count(),
-    }
+@app.get("/", response_class=HTMLResponse)
+def read_root():
+    return """
+    <html>
+        <head>
+            <title>Starbleep API</title>
+            <style>
+                body { font-family: sans-serif; text-align: center; padding: 50px; background: #0b0d17; color: white; }
+                h1 { color: #4cc9f0; }
+                a { color: #f72585; text-decoration: none; font-weight: bold; }
+            </style>
+        </head>
+        <body>
+            <h1>Starbleep Backend</h1>
+            <p>View the data: <a href="/missions">/missions</a></p>
+            <p>Interactive Docs: <a href="/docs">/docs</a></p>
+        </body>
+    </html>
+    """
