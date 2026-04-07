@@ -1,88 +1,4 @@
-@font-face {
-    font-family: "Anta";
-    src: url('../fonts/Anta-Regular.woff2') format('woff2');
-    font-display: swap;
-}
 
-*{
-    padding : 0;
-    margin : 0;
-    color: white;
-    font-family: "Anta", sans-serif;
-    box-sizing: border-box;
-    text-decoration: none;
-    text-shadow: 0 0 1vw rgb(0, 0, 0);
-}
-
-body{
-    background-image:url("../img/Back.png");
-    background-position: center;
-    background-repeat: repeat;
-    background-attachment: fixed;
-    background-size: 110% ;
-    min-height: 100vh;
-    width: 100%;
-}
-
-nav{
-    position: sticky;
-    top: 0;
-    right: 0;
-    left: 0;
-    display: flex;
-    align-content: center;
-    flex-direction: row;
-    justify-content: space-between;
-    font-size: 2vw;
-    height: 15vh;
-    z-index: 2;
-    background-color: rgba(0, 0, 0, 0.082);
-    border-bottom: rgba(255, 255, 255, 0.178) solid 0.1vw;
-}
-
-nav a {
-    position: relative;
-    margin-right: 5vw;
-}
-
-nav a::after {
-    content: '';
-    position: absolute;
-    bottom: -1px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: white;
-    transition: width 0.3s ease;
-}
-
-nav a:hover::after {
-    width: 100%;
-}
-
-.logoDiv{
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    margin-left: 5vw;
-    width: 50%;
-}
-
-.logo{
-    border-radius: 50%;
-    padding: 1vw;
-    border: 0.1vw solid white;
-    background-color: rgba(0, 0, 0, 0.39);
-    width: 5vw;
-    height: 5vw;
-}
-
-.barDiv{
-    display: flex;
-    width: 50%;
-    justify-content: right;
-    align-items: center;
-}
 
 @keyframes bleep{
     0%{
@@ -193,6 +109,11 @@ main{
     background-image: linear-gradient(rgb(134, 26, 26), rgb(160, 74, 24));
     left: 1%;
     top: 30%;
+}
+
+.planet a{
+    width: 100%;
+    height: 100%;
 }
 
 @keyframes mars-travel {
