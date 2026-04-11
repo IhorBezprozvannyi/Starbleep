@@ -52,6 +52,10 @@ main{
 
 }
 
+.choose{
+    font-size: 2.5vw;
+}
+
 .planets {
     display: flex;
     justify-content: center;
@@ -87,7 +91,21 @@ main{
     left: 90%;
     transform: translateX(-50%);
     box-shadow: 0 0 5vw rgba(0, 0, 0, 0.781) inset;
+}
 
+.moon::after, .mars::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    box-shadow: 0 0 3vw rgba(255, 255, 255, 0.123);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.moon:hover::after, .mars:hover::after {
+    opacity: 1;
+    cursor: pointer;
 }
 
 .earth { 
