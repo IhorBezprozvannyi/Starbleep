@@ -48,10 +48,10 @@ nav a {
 nav a::after {
     content: '';
     position: absolute;
-    bottom: -1px;
+    bottom: -0.1vw;
     left: 0;
     width: 0;
-    height: 2px;
+    height: 0.25vw;
     background: white;
     transition: width 0.3s ease;
 }
@@ -71,10 +71,17 @@ nav a:hover::after {
 .logo{
     border-radius: 50%;
     padding: 1vw;
-    border: 0.1vw solid white;
+    border: 0.1vw solid rgba(255, 255, 255, 0.534);
     background-color: rgba(0, 0, 0, 0.39);
     width: 5vw;
     height: 5vw;
+    transition: 0.2s ease;
+}
+
+.logo:hover{
+
+    border: 0.1vw solid rgb(255, 255, 255);
+    box-shadow: 0 0 1.5vw rgba(255, 255, 255, 0.219);
 }
 
 .barDiv{

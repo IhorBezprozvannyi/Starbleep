@@ -71,6 +71,19 @@ button{
     font-size: 1.5vw;
     padding: 1vw;
     width: 50%;
+    transition: 0.2s ease;
+}
+
+.bmars:hover{
+    border-color:#d38a68 ;
+    box-shadow: 0 0 2vw black;
+    text-shadow: none;
+}
+
+.bmoon:hover{
+    border-color:#acaeaf ;
+    box-shadow: 0 0 2vw black;
+    text-shadow: none;
 }
 
 .box{
@@ -79,7 +92,7 @@ button{
 
 }
 
-.planet{
+.mars{
     position: absolute;
     width: 60vw;
     height: 60vw;
@@ -87,6 +100,24 @@ button{
     left: 60%;
     transform: translate(-50%, -40%);
     background-image: url(../img/mars.webp); 
+    background-position: fixed;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    box-shadow: 0 0 5vw rgb(0, 0, 0) inset;  
+}
+
+.smoon{
+    color: #acaeaf;
+}
+
+.moon{
+    position: absolute;
+    width: 60vw;
+    height: 60vw;
+    border-radius: 50%;
+    left: 60%;
+    transform: translate(-50%, -40%);
+    background-image: url(../img/moon.jpg); 
     background-position: fixed;
     background-repeat: no-repeat;
     background-size: 100%;
