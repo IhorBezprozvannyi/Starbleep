@@ -81,8 +81,8 @@ button{
     height: 80vw;
     border-radius: 50%;
     left: 50%;
-    transform: translate(-50%, 5%);
-    background-image: url(../img/mars.webp); 
+    transform: translate(-50%, 5%) rotateZ(-50deg);
+    background-image: url(../img/mars1.jpg); 
     background-position: fixed;
     background-repeat: no-repeat;
     background-size: 100%;
@@ -95,9 +95,10 @@ button{
     height: 80vw;
     border-radius: 50%;
     left: 50%;
-    transform: translate(-50%, 5%) rotateZ(-50deg);
+    transform: translate(-50%, 5%);
     filter: brightness(80%);
-    background-image: url(../img/moon.jpg); 
+    background-image: url(../img/moon2.jpg); 
+    filter: brightness(100%);
     background-position: fixed;
     background-repeat: no-repeat;
     background-position: center;

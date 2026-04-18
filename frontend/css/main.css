@@ -111,20 +111,33 @@ main{
 .earth { 
     width: 25vw; 
     height: 25vw; 
-    background-image: linear-gradient(rgb(0, 109, 172), rgb(0, 121, 60));
+    background-image: url(../img/earth.jpg); 
+    background-position: fixed;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
     transform: translate(-50%, -50%);
+    filter: brightness(85%);
 }
 .moon  { 
     width: 10vw;
     height: 10vw;      
-    background-image: linear-gradient(rgb(201, 201, 201), rgb(56, 56, 56));
+    background-image: url(../img/moon2.jpg); 
+    background-position: fixed;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
     left: 3%;
     top: 55%;
 }
 .mars  { 
     width: 15vw; 
     height: 15vw;
-    background-image: linear-gradient(rgb(134, 26, 26), rgb(160, 74, 24));
+    background-image: url(../img/mars1.jpg); 
+    background-position: fixed;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
     left: 1%;
     top: 30%;
 }
