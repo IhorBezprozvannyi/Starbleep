@@ -1,9 +1,20 @@
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
+from fastapi.middleware.cors import CORSMiddleware  # <--- NEW: The Bridge Import
 import sqlite3
 import os
 
 app = FastAPI()
+
+# --- THE CRUCIAL BRIDGE (CORS) ---
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], # Allows Ihor to connect from any location
+    allow_credentials=True,
+    allow_methods=["*"], # Allows GET, POST, etc.
+    allow_headers=["*"],
+)
+# --------------------------------
 
 # Database setup
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -39,6 +50,44 @@ def home():
             <h1>🚀 Starbleep Mars API</h1>
             <p>Curiosity: <a style="color: #4cc9f0;" href="/missions/curiosity/path">/missions/curiosity/path</a></p>
             <p>Perseverance: <a style="color: #4cc9f0;" href="/missions/perseverance/path">/missions/perseverance/path</a></p>
+            <p style="color: #555; margin-top: 20px;">CORS Bridge: 🟢 Active</p>
         </body>
     </html>
     """
+# Add this to your main.py
+
+@app.get("/missions/all")
+def get_all_missions():
+    """Returns every mission for the filter/gallery page"""
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM mission_details")
+    rows = cursor.fetchall()
+    conn.close()
+    return [dict(row) for row in rows]
+
+@app.get("/missions/search")
+def search_missions(year: int = None, type: str = None, status: str = None):
+    """Optional: Filter missions directly via the API"""
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    
+    query = "SELECT * FROM mission_details WHERE 1=1"
+    params = []
+    
+    if year:
+        query += " AND launch_year = ?"
+        params.append(year)
+    if type:
+        query += " AND type = ?"
+        params.append(type)
+    if status:
+        query += " AND status = ?"
+        params.append(status)
+        
+    cursor.execute(query, params)
+    rows = cursor.fetchall()
+    conn.close()
+    return [dict(row) for row in rows]
