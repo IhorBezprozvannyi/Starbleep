@@ -88,7 +88,7 @@ button{
     border-radius: 50%;
     left: 60%;
     transform: translate(-50%, -40%);
-    background-image: url(../img/mars.webp); 
+    background-image: url(../img/mars1.jpg); 
     background-position: fixed;
     background-repeat: no-repeat;
     background-size: 100%;
@@ -106,7 +106,7 @@ button{
     border-radius: 50%;
     left: 60%;
     transform: translate(-50%, -40%);
-    background-image: url(../img/moon.jpg); 
+    background-image: url(../img/moon2.jpg); 
     background-position: fixed;
     background-repeat: no-repeat;
     background-size: 100%;
