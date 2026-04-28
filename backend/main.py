@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
-from fastapi.middleware.cors import CORSMiddleware  # <--- NEW: The Bridge Import
+from fastapi.middleware.cors import CORSMiddleware
 import sqlite3
 import os
 
@@ -9,12 +9,11 @@ app = FastAPI()
 # --- THE CRUCIAL BRIDGE (CORS) ---
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # Allows Ihor to connect from any location
+    allow_origins=["*"],
     allow_credentials=True,
-    allow_methods=["*"], # Allows GET, POST, etc.
+    allow_methods=["*"],
     allow_headers=["*"],
 )
-# --------------------------------
 
 # Database setup
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -26,7 +25,7 @@ def get_rover_path(rover_name: str):
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
     
-    # Fetch all points for the specific rover, ordered by time
+    # This works for ANY name you type in the URL automatically!
     cursor.execute("""
         SELECT earth_date, lat, lon 
         FROM rover_telemetry 
@@ -38,27 +37,13 @@ def get_rover_path(rover_name: str):
     conn.close()
     
     if not rows:
-        return {"error": f"No data found for {rover_name}. Run the import script!"}
+        return {"error": f"No data found for {rover_name}. Check the spelling or run the import script!"}
         
     return [dict(row) for row in rows]
 
-@app.get("/", response_class=HTMLResponse)
-def home():
-    return """
-    <html>
-        <body style="font-family: sans-serif; text-align: center; padding: 50px; background: #1a1a1a; color: white;">
-            <h1>🚀 Starbleep Mars API</h1>
-            <p>Curiosity: <a style="color: #4cc9f0;" href="/missions/curiosity/path">/missions/curiosity/path</a></p>
-            <p>Perseverance: <a style="color: #4cc9f0;" href="/missions/perseverance/path">/missions/perseverance/path</a></p>
-            <p style="color: #555; margin-top: 20px;">CORS Bridge: 🟢 Active</p>
-        </body>
-    </html>
-    """
-# Add this to your main.py
-
 @app.get("/missions/all")
 def get_all_missions():
-    """Returns every mission for the filter/gallery page"""
+    """Returns every mission for Ihor's filter/gallery page"""
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
@@ -67,27 +52,20 @@ def get_all_missions():
     conn.close()
     return [dict(row) for row in rows]
 
-@app.get("/missions/search")
-def search_missions(year: int = None, type: str = None, status: str = None):
-    """Optional: Filter missions directly via the API"""
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
-    cursor = conn.cursor()
-    
-    query = "SELECT * FROM mission_details WHERE 1=1"
-    params = []
-    
-    if year:
-        query += " AND launch_year = ?"
-        params.append(year)
-    if type:
-        query += " AND type = ?"
-        params.append(type)
-    if status:
-        query += " AND status = ?"
-        params.append(status)
-        
-    cursor.execute(query, params)
-    rows = cursor.fetchall()
-    conn.close()
-    return [dict(row) for row in rows]
+@app.get("/", response_class=HTMLResponse)
+def home():
+    return """
+    <html>
+        <body style="font-family: 'Courier New', monospace; text-align: center; padding: 50px; background: #0b0d17; color: #e0e0e0;">
+            <h1 style="color: #ff4d4d;">🚀 Starbleep Mars Fleet API</h1>
+            <p>Global Registry: <a style="color: #4cc9f0;" href="/missions/all">/missions/all</a></p>
+            <hr style="border: 1px solid #333; width: 50%;">
+            <h3>📡 Individual Coordinate Feeds</h3>
+            <p>Curiosity: <a style="color: #4cc9f0;" href="/missions/curiosity/path">/path</a></p>
+            <p>Perseverance: <a style="color: #4cc9f0;" href="/missions/perseverance/path">/path</a></p>
+            <p>Spirit: <a style="color: #4cc9f0;" href="/missions/spirit/path">/path</a></p>
+            <p>Opportunity: <a style="color: #4cc9f0;" href="/missions/opportunity/path">/path</a></p>
+            <p style="color: #00ff00; margin-top: 40px; font-size: 0.8em;">CORS Bridge: 🟢 Online</p>
+        </body>
+    </html>
+    """
