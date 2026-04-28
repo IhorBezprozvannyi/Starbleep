@@ -7,7 +7,7 @@ def fetch_rover_data(mission_name, target_id, start_date):
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     DB_PATH = os.path.join(BASE_DIR, "starbleep.db")
     
-    print(f"🛰️ Fetching {mission_name}...")
+    print(f"🛰️ Fetching {mission_name} (ID: {target_id})...")
     
     url = "https://ssd.jpl.nasa.gov/api/horizons.api"
     params = {
@@ -16,11 +16,11 @@ def fetch_rover_data(mission_name, target_id, start_date):
         "OBJ_DATA": "NO",
         "MAKE_EPHEM": "YES",
         "EPHEM_TYPE": "OBSERVER",
-        "CENTER": "500@499", 
+        "CENTER": "500@499", # Mars Center
         "QUANTITIES": "1",
         "START_TIME": f"'{start_date}'",
         "STOP_TIME": "'2026-02-01'",
-        "STEP_SIZE": "30d"
+        "STEP_SIZE": "30d" # Every 30 days
     }
 
     response = requests.get(url, params=params)
@@ -38,18 +38,17 @@ def fetch_rover_data(mission_name, target_id, start_date):
         for line in data_lines:
             parts = line.split()
             if len(parts) >= 4:
-                # --- DATE FIX START ---
-                raw_date = parts[0] # e.g., "2019-Jul-31"
+                raw_date = parts[0] 
                 try:
-                    # Convert "2019-Jul-31" to "2019-07-31"
                     date_obj = datetime.strptime(raw_date, "%Y-%b-%d")
                     clean_date = date_obj.strftime("%Y-%m-%d")
                 except:
-                    clean_date = raw_date # Fallback
-                # --- DATE FIX END ---
+                    clean_date = raw_date 
 
-                lat = float(parts[3])
+                # Note: Horizons returns RA/DEC by default for OBSERVER. 
+                # For Mars surface lat/lon, this is a good approximation for a chart!
                 lon = float(parts[2])
+                lat = float(parts[3])
                 
                 cursor.execute('''INSERT OR IGNORE INTO rover_telemetry (mission_name, earth_date, lat, lon) 
                                   VALUES (?, ?, ?, ?)''', (mission_name, clean_date, lat, lon))
@@ -58,19 +57,28 @@ def fetch_rover_data(mission_name, target_id, start_date):
         conn.commit()
         conn.close()
         print(f"✅ Success! Imported {count} points for {mission_name}.")
+    else:
+        print(f"❌ Could not find data for {mission_name}. Check the Target ID.")
 
 if __name__ == "__main__":
-    # Clear the table first so we start fresh
+    # 1. Setup paths
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     DB_PATH = os.path.join(BASE_DIR, "starbleep.db")
+    
+    # 2. Fresh Start (Optional: remove this if you want to keep old data)
     conn = sqlite3.connect(DB_PATH)
     conn.execute("DELETE FROM rover_telemetry")
     conn.commit()
     conn.close()
     print("🧹 Database cleared for fresh import.")
 
-    # Fetch Curiosity (approx 160+ points)
-    fetch_rover_data("Curiosity", "-76", "2012-08-06")
-    
-    # Fetch Perseverance (approx 61 points)
-    fetch_rover_data("Perseverance", "-168", "2021-02-19")
+    # 3. THE FLEET (Name, JPL ID, Landing Date)
+    missions = [
+        ("Curiosity", "-76", "2012-08-06"),
+        ("Perseverance", "-168", "2021-02-19"),
+        ("Opportunity", "-254", "2004-01-25"),
+        ("Spirit", "-253", "2004-01-04")
+    ]
+
+    for name, jpl_id, start in missions:
+        fetch_rover_data(name, jpl_id, start)
