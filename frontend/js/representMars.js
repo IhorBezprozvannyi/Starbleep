@@ -1,4 +1,5 @@
 import {getRoverPath, getAllMissions} from "./getRoverInfo.js";
+import {getSpacedPosition} from "./filter.js"
 
 const data = getAllMissions();
 const path = getRoverPath();
@@ -7,7 +8,7 @@ const path = getRoverPath();
 function latLonToPercent(lat, lon) {
   const x = (lon + 180) / 360 * 100;
   const yFull = (90 - lat) / 180 * 100;
-  const y = yFull * 0.20;
+  const y = yFull * 0.10;
   return [ x, y ];
 }
 
@@ -19,9 +20,12 @@ export async function display(element){
     console.log(coords)
     let arr = latLonToPercent(coords.lat, coords.lon);
     console.log(arr);
-    let lon = arr[0];
-    let lat = arr[1];
+    let x = arr[0];
+    let y = arr[1];
+    let [spacedX, spacedY] = getSpacedPosition(x, y, 5);
     document.querySelector(".mars").innerHTML += `
-        <img class="machine" src="../img/place.svg" style="position: absolute; left: ${lon}%; top: ${lat}%; width: 4vw; height: 4vw; transform: rotate(45deg)">
+        <div class="icon-wrapper" data-name="${element.name}" style="position: absolute; left: ${spacedX}%; top: ${spacedY}%; z-index: 1;">
+            <img class="machine" src="../img/place.svg" style="width: 5vw; height: 5vw; filter: invert(90%);">
+        </div>
     `
 }

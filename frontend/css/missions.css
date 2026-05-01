@@ -113,3 +113,28 @@ button{
     text-shadow: none;
     cursor: pointer;
 }
+
+.icon-wrapper {
+    position: absolute;
+    transform: rotate(45deg);
+}
+
+.icon-wrapper::before {
+    content: attr(data-name); /* 👈 pulls the rover name from the attribute */
+    display: none;
+    position: absolute;
+    bottom: 110%;
+    left: 50%;
+    z-index: 3;
+    transform: translate(-50%, 20%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    font-size: 1vw;
+}
+
+.icon-wrapper:hover::before {
+    display: block;
+}
