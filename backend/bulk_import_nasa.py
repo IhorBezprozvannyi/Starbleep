@@ -2,12 +2,56 @@ import sqlite3
 import requests
 import os
 from datetime import datetime
+import time
+
+# --- HELPER FUNCTIONS ---
+
+def get_sol(mission_name, earth_date_str):
+    landing_dates = {
+        "Curiosity": "2012-08-06",
+        "Perseverance": "2021-02-18",
+        "Spirit": "2004-01-04",
+        "Opportunity": "2004-01-25"
+    }
+    fmt = "%Y-%m-%d"
+    try:
+        landed = datetime.strptime(landing_dates[mission_name], fmt)
+        current = datetime.strptime(earth_date_str, fmt)
+        return int((current - landed).days / 1.02749)
+    except:
+        return 0
+
+def get_photo_count(rover_name, earth_date_str):
+    clean_name = rover_name.strip().lower()
+    # Direct query to the photo API for a specific earth_date
+    url = f"https://api.nasa.gov/mars-photos/api/v1/rovers/{clean_name}/photos"
+    params = {
+        "earth_date": earth_date_str,
+        "api_key": "4Kcd58l2jxv2TS3R4IXxrJCJzCy8xvHsrWJR8weO"
+    }
+    
+    try:
+        response = requests.get(url, params=params, timeout=10)
+        if response.status_code == 200:
+            data = response.json()
+            photos = data.get('photos', [])
+            count = len(photos)
+            if count > 0:
+                print(f"📸 Found {count} photos for {clean_name} on {earth_date_str}")
+            return count
+        elif response.status_code == 429:
+            print("⚠️ NASA API Limit Hit! (Rate limited)")
+    except Exception as e:
+        print(f"⚠️ Photo API Error: {e}")
+    return 0
+
+# --- MAIN IMPORT ENGINE ---
 
 def fetch_rover_data(mission_name, target_id, start_date):
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     DB_PATH = os.path.join(BASE_DIR, "starbleep.db")
     
-    print(f"🛰️ Fetching {mission_name} (ID: {target_id})...")
+    print(f"🛰️ Fetching {mission_name}...")
     
     url = "https://ssd.jpl.nasa.gov/api/horizons.api"
     params = {
@@ -16,63 +60,61 @@ def fetch_rover_data(mission_name, target_id, start_date):
         "OBJ_DATA": "NO",
         "MAKE_EPHEM": "YES",
         "EPHEM_TYPE": "OBSERVER",
-        "CENTER": "500@499", # Mars Center
+        "CENTER": "500@499",
         "QUANTITIES": "1",
         "START_TIME": f"'{start_date}'",
         "STOP_TIME": "'2026-02-01'",
-        "STEP_SIZE": "30d" # Every 30 days
+        "STEP_SIZE": "30d" 
     }
 
-    response = requests.get(url, params=params)
-    result = response.json().get("result", "")
+    try:
+        response = requests.get(url, params=params)
+        result = response.json().get("result", "")
+    except:
+        print("❌ Failed to reach JPL Horizons")
+        return
 
     if "$$SOE" in result:
-        start = result.find("$$SOE") + 5
-        end = result.find("$$EOE")
-        data_lines = result[start:end].strip().split('\n')
+        start_idx = result.find("$$SOE") + 5
+        end_idx = result.find("$$EOE")
+        data_lines = result[start_idx:end_idx].strip().split('\n')
         
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
         
-        count = 0
+        count = 0 
         for line in data_lines:
-            parts = line.split()
-            if len(parts) >= 4:
+            parts = line.strip().split()
+            if len(parts) > 5:
                 raw_date = parts[0] 
                 try:
                     date_obj = datetime.strptime(raw_date, "%Y-%b-%d")
                     clean_date = date_obj.strftime("%Y-%m-%d")
                 except:
-                    clean_date = raw_date 
+                    continue 
 
-                # Note: Horizons returns RA/DEC by default for OBSERVER. 
-                # For Mars surface lat/lon, this is a good approximation for a chart!
-                lon = float(parts[2])
-                lat = float(parts[3])
+                sol_value = get_sol(mission_name, clean_date)
+                photo_val = get_photo_count(mission_name, clean_date)
                 
-                cursor.execute('''INSERT OR IGNORE INTO rover_telemetry (mission_name, earth_date, lat, lon) 
-                                  VALUES (?, ?, ?, ?)''', (mission_name, clean_date, lat, lon))
-                count += 1
+                try:
+                    lon = float(parts[-2])
+                    lat = float(parts[-1])
+                except:
+                    continue
+                
+                cursor.execute('''
+                    INSERT OR REPLACE INTO rover_telemetry 
+                    (mission_name, earth_date, lat, lon, sol, photos_taken, event_log) 
+                    VALUES (?, ?, ?, ?, ?, ?, ?)
+                ''', (mission_name, clean_date, lat, lon, sol_value, photo_val, "Normal Operations"))
+                count += 1 
+                time.sleep(0.5)  # This waits half a second before the next request
         
         conn.commit()
         conn.close()
         print(f"✅ Success! Imported {count} points for {mission_name}.")
-    else:
-        print(f"❌ Could not find data for {mission_name}. Check the Target ID.")
 
 if __name__ == "__main__":
-    # 1. Setup paths
-    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    DB_PATH = os.path.join(BASE_DIR, "starbleep.db")
-    
-    # 2. Fresh Start (Optional: remove this if you want to keep old data)
-    conn = sqlite3.connect(DB_PATH)
-    conn.execute("DELETE FROM rover_telemetry")
-    conn.commit()
-    conn.close()
-    print("🧹 Database cleared for fresh import.")
-
-    # 3. THE FLEET (Name, JPL ID, Landing Date)
     missions = [
         ("Curiosity", "-76", "2012-08-06"),
         ("Perseverance", "-168", "2021-02-19"),
