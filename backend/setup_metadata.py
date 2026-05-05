@@ -1,45 +1,42 @@
 import sqlite3
 import os
 
-# Use the same path as your main project
+# Database setup
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, "starbleep.db")
 
-def setup_mission_metadata():
+def update_metadata():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
-    # 1. Create the table for the filters
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS mission_details (
-            id INTEGER PRIMARY KEY,
-            name TEXT UNIQUE,
-            target TEXT,
-            naif_id TEXT,
-            type TEXT,
-            status TEXT,
-            launch_year INTEGER,
-            description TEXT
-        )
-    """)
-
-    # 2. Insert the data for Ihor's filters
-    missions = [
-        ('Curiosity', 'Mars', 'MSL', 'Rover', 'Active', 2011, 'Exploring Gale Crater to study habitability.'),
-        ('Perseverance', 'Mars', 'M2020', 'Rover', 'Active', 2020, 'Seeking signs of ancient life in Jezero Crater.'),
-        ('Opportunity', 'Mars', 'MER-B', 'Rover', 'Inactive', 2003, 'Completed a 15-year mission in 2018.'),
-        ('InSight', 'Mars', 'INSIGHT', 'Lander', 'Inactive', 2018, 'Studied the "inner space" of Mars.')
+    # ONLY your four rovers
+    # Format: (Name, Target, NAIF_ID, Type, Status, Launch_Year, Description)
+    rover_fleet = [
+        ('Curiosity', 'Mars', '-76', 'Rover', 'Active', 2011, 
+         'Exploring Gale Crater to determine if Mars was ever habitable for microbial life.'),
+        
+        ('Perseverance', 'Mars', '-168', 'Rover', 'Active', 2020, 
+         'Searching for signs of ancient life and collecting rock samples in Jezero Crater.'),
+        
+        ('Opportunity', 'Mars', '-254', 'Rover', 'Inactive', 2003, 
+         'The marathon rover that proved Mars once had liquid water; lasted 15 years.'),
+        
+        ('Spirit', 'Mars', '-253', 'Rover', 'Inactive', 2003, 
+         'Explored Gusev Crater and discovered evidence of ancient hydrothermal activity.')
     ]
 
+    # This clears any old mission info and puts in the fresh 4
+    cursor.execute("DELETE FROM mission_details")
+    
     cursor.executemany("""
-        INSERT OR REPLACE INTO mission_details 
+        INSERT INTO mission_details 
         (name, target, naif_id, type, status, launch_year, description) 
         VALUES (?, ?, ?, ?, ?, ?, ?)
-    """, missions)
+    """, rover_fleet)
 
     conn.commit()
     conn.close()
-    print("✅ Mission Metadata is ready!")
+    print("✅ Metadata Sync Complete: Curiosity, Perseverance, Spirit, & Opportunity are ready.")
 
 if __name__ == "__main__":
-    setup_mission_metadata()
+    update_metadata()
