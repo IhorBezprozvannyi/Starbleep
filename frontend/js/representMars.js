@@ -23,9 +23,15 @@ export async function display(element){
     let x = arr[0];
     let y = arr[1];
     let [spacedX, spacedY] = getSpacedPosition(x, y, 5);
-    document.querySelector(".mars").innerHTML += `
-        <div class="icon-wrapper" data-name="${element.name}" style="position: absolute; left: ${spacedX}%; top: ${spacedY}%; z-index: 1;">
-            <img class="machine" src="../img/place.svg" style="width: 5vw; height: 5vw; filter: invert(90%);">
-        </div>
-    `
+    const div = document.createElement("div");
+    div.className = "icon-wrapper";
+    div.dataset.name = element.name;
+    div.style = `position: absolute; left: ${spacedX}%; top: ${spacedY}%; cursor: pointer;`;
+    div.innerHTML = `<img class="machine" src="../img/place.svg" style="width: 5vw; height: 5vw; filter: invert();">`;
+
+    div.addEventListener("click", () => {
+        window.location.href = `displayMachine.html?name=${element.name}`;
+});
+
+document.querySelector(".mars").appendChild(div);
 }
