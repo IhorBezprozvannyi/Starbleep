@@ -1,0 +1,68 @@
+.name{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 15vh;
+}
+main{
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    justify-content: center;
+    align-items: center;
+    column-gap: 2vw;
+}
+.left{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2vw;
+    flex-direction: column;
+    flex: 1;
+    height: 70vh;
+    overflow: hidden;
+}
+.inner{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+    border-radius: 2vw;
+    background-color: #0000004d;
+    border: 0.15vw solid white;
+    padding: 2vw;
+    width: 95%;
+}
+.roverImage{
+    border-radius: 2vw;
+    width: 40vh;
+}
+.left h2{
+    font-size: 1.5vw;
+}
+.right{
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
+}
+.mainGrid{
+    flex: 2;
+    display: grid;
+    grid-template-columns: 13vw 13vw 13vw 13vw;
+    justify-content: center;
+    align-items: center;
+    column-gap: 1vw;
+}
+.Select{
+    height: 50vh;
+    border-radius: 2vw;
+    background-color: #0000004d;
+    border: 0.15vw solid white;
+    padding: 1vw;
+}
+h3{
+    font-size: 2vw;
+}
