@@ -1,14 +1,17 @@
+import kagglehub
+import os
 
-import requests
+# 1. This downloads the dataset structure to your cache
+path = kagglehub.dataset_download("nikitamanaenkov/meda-mars-weather-and-atmosphere-sensor-data")
 
-API_KEY = "YzL7GBd82cDwTT4GMNDEp997aycqLDyffXldLDcg"
-# Curiosity on Sol 1000 (roughly May 31, 2015) - Guaranteed to have photos
-url = f"https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key={API_KEY}"
+# 2. This FORCE PRINTS every single file name in that 6GB folder
+print("\n--- SCANNING DATASET FILES ---")
+file_count = 0
+for root, dirs, files in os.walk(path):
+    for file in files:
+        if file.endswith(".csv"):
+            print(f"FILE FOUND: {file}")
+            file_count += 1
 
-response = requests.get(url)
-if response.status_code == 200:
-    data = response.json()
-    print(f"✅ Success! Found {len(data['photos'])} photos.")
-else:
-    print(f"❌ Failed with status code: {response.status_code}")
-    print(response.text)
+print(f"\nTotal CSV files found: {file_count}")
+
