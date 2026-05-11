@@ -24,6 +24,7 @@ export function getSpacedPosition(x, y, minDistance = 2) {
 }
 
 const yearRanges = {
+  "1990-2000": { from: 1990, to: 2000 },
   "2000-2010": { from: 2000, to: 2010 },
   "2010-2020": { from: 2010, to: 2020 },
   "2020-2030": { from: 2020, to: 2030 }
