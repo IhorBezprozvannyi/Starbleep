@@ -1,16 +1,9 @@
 import {getRoverPath, getAllMissions} from "./getRoverInfo.js";
 import {getSpacedPosition} from "./filter.js"
+import { latLonToPercent } from "./latLonToPercent.js";
 
 const data = getAllMissions();
 const path = getRoverPath();
-
-
-function latLonToPercent(lat, lon) {
-  const x = (lon + 180) / 360 * 100;
-  const yFull = (90 - lat) / 180 * 100;
-  const y = yFull * 0.10;
-  return [ x, y ];
-}
 
 export async function display(element){
     let path = await getRoverPath(element.name);

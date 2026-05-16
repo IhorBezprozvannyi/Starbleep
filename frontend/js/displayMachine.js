@@ -15,16 +15,18 @@ data.forEach(element => {
         document.querySelector(".left").innerHTML = 
         `
             <div class="inner">
-                <h2>Type: ${element.type}</h2>
-                <h2>Destination: ${element.target}</h2>
+                <h2>Type: ${element.mission_type}</h2>
+                <h2>Destination: ${element.celestial_body}</h2>
                 <h2>Date of Launch: ${element.launch_year} </h2>
                 <h2>Status: ${element.status}</h2>
                 <img class="roverImage" src="../img/${element.name}.jpg" alt="">
             </div>
-        `        
+        `
+        const moveDiv = document.querySelector(".movement").addEventListener("click", () => {
+        window.location.href = `roadMap.html?name=${element.name}`;
+        });     
     }
     else{
         console.log("Rover not Found")
     }
 });
-

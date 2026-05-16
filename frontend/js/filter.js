@@ -44,7 +44,7 @@ async function filter(year, type, status){
         console.log(missionYear)
         const yearMatch = !range || (missionYear >= range.from && missionYear <= range.to);
         console.log(yearMatch)
-        const typeMatch = type === "Type" || element.type == type;
+        const typeMatch = type === "Type" || element.mission_type == type;
         console.log(typeMatch)
         const statusMatch = status === "Status" || element.status == status;
         console.log(statusMatch)
