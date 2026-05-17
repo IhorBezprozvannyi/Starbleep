@@ -78,4 +78,33 @@ function drawPath(start) {
         svg.appendChild(dot);
     });
 }
-drawPath(10);
+
+const prev = document.querySelector("#left");
+const next = document.querySelector("#right");
+
+let start = 0;
+
+document.querySelector("#num").innerHTML = start;
+
+function clickPrev(){
+        console.log("prev")
+    if (start > 0){
+        start -= 10;
+    }
+    document.querySelector("#num").innerHTML = start;
+    drawPath(start);
+}
+
+prev.addEventListener("click", () => clickPrev(start));
+
+function clickNext(point){
+    console.log("next")
+    if (start < path.length - 10){
+        start += 10;
+    }
+    document.querySelector("#num").innerHTML = start;
+    drawPath(start);
+}
+
+next.addEventListener("click", () => clickNext(start));
+drawPath(start);
