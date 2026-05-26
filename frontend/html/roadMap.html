@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/general.css">
+    <link rel="stylesheet" href="../css/roadMap.css">
+</head>
+<body>
+    <nav>
+        <div class="logoDiv">
+            <img src="../img/logo_placeholder.svg" alt="logo" class="logo" onclick="window.location.replace('./main.html')">
+        </div>
+        <div class="barDiv">
+            <a href="">Missions</a>
+            <a href="">About</a>
+        </div>
+    </nav>
+    <main>
+        <div class="top">
+            <h1>Rover Position</h1>
+        </div>
+        <div class="mapBox">
+            <svg class="map">
+
+                
+            </svg>
+            <div class="right">
+                <div class="topRight">
+                    <button id="left">&#60</button>
+                    <h3 id="num">#</h3>
+                    <button id="right">&gt</button>
+                </div>
+                <div class="grid">
+                    <div class="select">
+                        <h3>Total Distance</h3>
+                    </div>
+                    <div class="select">
+                        <h3>Earth Day</h3>
+                    </div>
+                    <div class="select">
+                        <h3>Photos Taken</h3>
+                    </div>
+                    <div class="select">
+                        <h3>Failure Events</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script type="module" src="../js/roadMap.js"></script>
+</body>
+</html>

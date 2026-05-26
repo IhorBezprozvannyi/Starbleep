@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Starbleep</title>
+    <link rel="stylesheet" href="../css/general.css">
+    <link rel="stylesheet" href="../css/missions.css">
+</head>
+<body>
+    <nav>
+        <div class="logoDiv">
+            <img src="../img/logo_placeholder.svg" alt="logo" class="logo" onclick="window.location.replace('./main.html')">
+        </div>
+        <div class="barDiv">
+            <a href="">Missions</a>
+            <a href="">About</a>
+        </div>
+    </nav>
+    <main>
+        <div class="top">
+            <h1>Missions</h1>
+            <form action="">
+                <div class="filterbox">
+                    <select name="year" id="year">
+                        <option value="Year">Year</option>
+                        <option value="1990-2000">1990-2000</option>
+                        <option value="2000-2010">2000-2010</option>
+                        <option value="2010-2020">2010-2020</option>
+                        <option value="2020-2030">2020-2030</option>
+                    </select>
+                    <select name="type" id="type">
+                        <option value="Type">Type</option>
+                        <option value="Rover">Rover</option>
+                        <option value="Lander">Lander</option>
+                        <option value="Orbiter">Orbiter</option>
+                    </select>
+                    <select name="status" id="status">
+                        <option value="Status">Status</option>
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+                </div>
+                <button>Filter</button>
+            </form>
+        </div>
+        <div class="box">
+            <div class="mars">
+
+            </div>
+        </div>
+    </main>
+    <script type="module" src="../js/filter.js"></script>
+    <script type="module" src="../js/representMars.js"></script>
+</body>
+</html>

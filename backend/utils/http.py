@@ -1,0 +1,1 @@
+#shared HTTP session with retry logic for API CALLS .
