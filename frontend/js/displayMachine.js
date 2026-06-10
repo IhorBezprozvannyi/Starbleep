@@ -24,7 +24,11 @@ data.forEach(element => {
         `
         const moveDiv = document.querySelector(".movement").addEventListener("click", () => {
         window.location.href = `roadMap.html?name=${element.name}`;
-        });     
+        });  
+        
+        const sensorDiv = document.querySelector(".sensor").addEventListener("click", () => {
+        window.location.href = `sensorReadings.html?name=${element.name}`;
+        }); 
     }
     else{
         console.log("Rover not Found")

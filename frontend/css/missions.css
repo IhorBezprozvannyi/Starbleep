@@ -8,6 +8,7 @@ main{
     height: 85vh;
     width: 100%;
     overflow: hidden;
+    position: relative;
 }
 
 h1{
@@ -15,14 +16,35 @@ h1{
 }
 
 .top{
-    height: 40%;
+    border: #ffffff 0.15vw solid;
+    position: absolute;
+    height: 60vh; 
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 2vw;
+    border-radius: 2vw;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
+    z-index: 3;
+    background-color: #0000006e;
+    backdrop-filter: blur(4px);
+    box-shadow: 0 0 3vw black;
+    transition: 0.2s;
+}
+
+.top.hidden {
+    display: none;
+}
+
+.top:hover{
+    border: #d38a68 0.15vw solid;
 }
 
 form{
+    height: 25vh;
     z-index: 2;
     display: flex;
     flex-direction: column;
@@ -45,7 +67,7 @@ select {
     border: 0.2vw white solid;
     border-radius: 2vw;
     vertical-align: middle;
-    font-size: 1.5vw;
+    font-size: 1.3vw;
     padding-left: 1vw;
     transition: 0.2s ease;
 }
@@ -70,6 +92,13 @@ button{
     height: 2.5vw;
 }
 
+button:hover{
+    border-color:#d38a68 ;
+    box-shadow: 0 0 2vw black;
+    text-shadow: none;
+    cursor: pointer;
+}
+
 .box{
     position: relative;
     width: 100%;
@@ -79,15 +108,30 @@ button{
 .mars{
     position: absolute;
     width: 80vw;
-    height: 80vw;
-    border-radius: 50%;
+    height: 40vw;
+    top: 50%;
     left: 50%;
-    transform: translate(-50%, 5%) rotateZ(-50deg);
-    background-image: url(../img/mars1.jpg); 
+    transform: translate(-50%, -50%);
+    border-radius: 4vw;
+    background-image: url(../img/mars_map.webp); 
     background-position: fixed;
     background-repeat: no-repeat;
-    background-size: 100%;
-    box-shadow: 0 0 5vw rgb(0, 0, 0) inset;  
+    background-size: 100% 100%;
+    box-shadow: 0 0 5vw rgb(0, 0, 0) inset; 
+    object-fit: fill;
+    opacity: 1;
+    transition: 0.2s;
+    filter: saturate(130%);
+}
+
+.mars.blurred{
+    filter: saturate(100%);
+    width: 50vw;
+    height: 50vw;
+    border-radius: 50%;
+    background-image:url(../img/mars1.jpg) ;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10vw rgb(0, 0, 0) inset;
 }
 
 .moon{
@@ -114,13 +158,25 @@ button{
     cursor: pointer;
 }
 
+@keyframes fadeIn {
+    from { opacity: 0; transform: translate(-50%, -50%) scale(0); }
+    to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+@keyframes fadeOut {
+    from   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    to { opacity: 0; transform: translate(-50%, -50%) scale(0); }
+}
+
 .icon-wrapper {
     position: absolute;
-    transform: rotate(45deg);
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    animation: fadeIn 0.4s ease forwards;
 }
 
 .icon-wrapper::before {
-    content: attr(data-name); /* 👈 pulls the rover name from the attribute */
+    content: attr(data-name);
     display: none;
     position: absolute;
     bottom: 110%;
@@ -137,4 +193,45 @@ button{
 
 .icon-wrapper:hover::before {
     display: block;
+}
+
+.filter-reopen {
+    font-size: 1.5vw;
+    background-color: rgba(0, 0, 0, 0);
+    border-radius: 2vw;
+    border: 0.2vw solid white;
+    width: 8vw;
+    height: 2.5vw;
+    cursor: pointer;
+    color: white;
+    transition: 0.2s ease;
+}
+
+.filter-reopen:hover {
+    border-color: #d38a68;
+}
+
+.nothing{
+    border: 0.3vw solid rgb(161, 0, 0);
+    background-color: rgba(0, 0, 0, 0.37);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    padding: 2vw;
+    width: 75%;
+    border-radius: 2vw;
+    height: 25vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.5 ease-in;
+}
+
+.nothing.hidden{
+    display: none;
+}
+
+.nothing h1{
+    margin: 0;
 }
