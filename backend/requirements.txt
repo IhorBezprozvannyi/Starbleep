@@ -1,1 +1,4 @@
-list of all python packages needed.
+fastapi
+uvicorn
+pandas
+requests

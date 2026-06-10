@@ -1,15 +1,21 @@
 import requests
-import re
 
-folder_url = "https://pds-atmospheres.nmsu.edu/PDS/data/mslrem_1001/DATA/SOL_00001_00089/SOL00054/"
+url = "https://atmos.nmsu.edu/PDS/data/mslrem_1001/DATA/SOL_00001_00089/SOL00001/RME_397535244RMD00010000000_______P9.TAB"
+response = requests.get(url)
+lines = response.text.splitlines()
 
-print("🔍 STEP 1: Fetching directory listing...")
-r = requests.get(folder_url, timeout=5)
-filenames = re.findall(r'href="([^"]*RMD[^"]*\.TAB)"', r.text, re.IGNORECASE)
-if not filenames:
-    print("❌ Failed to find the RMD.TAB file name!")
-    exit()
+print("Scanning for lines with numeric pressure readings...")
 
+<<<<<<< HEAD
+for i, line in enumerate(lines):
+    # Does this line have a number that looks like a pressure (between 600 and 800)?
+    # We look for a pattern like 700.XX
+    if "70" in line or "71" in line or "72" in line:
+        print(f"Found potential data on line {i}: {line[:60]}...")
+        # If we found at least 3, stop so we don't spam the terminal
+        if i > 20: 
+            break
+=======
 file_url = f"{folder_url}{filenames[0]}"
 print(f"📡 STEP 2: Streaming rows and dynamically hunting for valid Martian pressure...")
 
@@ -62,3 +68,4 @@ with requests.get(file_url, stream=True, timeout=5) as data_r:
             print(f"   Searching deeper... Checked {line_count} rows of initialization data...", end="\r")
             
     print(f"\n❌ Checked all {line_count} rows but couldn't find active environment readings.")
+>>>>>>> 3c89308f47e165be815bf55ffe257645507e11d5
