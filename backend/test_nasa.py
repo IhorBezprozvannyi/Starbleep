@@ -1,10 +1,6 @@
 import requests
 
-<<<<<<< HEAD
-#it works!
-=======
 #dont delete it
->>>>>>> 9e6cabd889c098bd04d2ebc6172dbbe78f727fb2
   
 def fetch_and_clean_data():
     print("🛰️ Fetching data...")
