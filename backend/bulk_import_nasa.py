@@ -21,29 +21,6 @@ def get_sol(mission_name, earth_date_str):
     except:
         return 0
 
-def get_photo_count(rover_name, earth_date_str):
-    clean_name = rover_name.strip().lower()
-    # Direct query to the photo API for a specific earth_date
-    url = f"https://api.nasa.gov/mars-photos/api/v1/rovers/{clean_name}/photos"
-    params = {
-        "earth_date": earth_date_str,
-        "api_key": "4Kcd58l2jxv2TS3R4IXxrJCJzCy8xvHsrWJR8weO"
-    }
-    
-    try:
-        response = requests.get(url, params=params, timeout=10)
-        if response.status_code == 200:
-            data = response.json()
-            photos = data.get('photos', [])
-            count = len(photos)
-            if count > 0:
-                print(f"📸 Found {count} photos for {clean_name} on {earth_date_str}")
-            return count
-        elif response.status_code == 429:
-            print("⚠️ NASA API Limit Hit! (Rate limited)")
-    except Exception as e:
-        print(f"⚠️ Photo API Error: {e}")
-    return 0
 
 # --- MAIN IMPORT ENGINE ---
 
@@ -82,6 +59,19 @@ def fetch_rover_data(mission_name, target_id, start_date):
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
         
+        # 🏗️ AUTO-CREATE TABLE IF IT WENT MISSING
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS rover_telemetry (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                mission_name TEXT,
+                earth_date TEXT,
+                lat REAL,
+                lon REAL,
+                sol INTEGER
+            )
+        ''')
+        conn.commit()
+        
         count = 0 
         for line in data_lines:
             parts = line.strip().split()
@@ -94,7 +84,6 @@ def fetch_rover_data(mission_name, target_id, start_date):
                     continue 
 
                 sol_value = get_sol(mission_name, clean_date)
-                photo_val = get_photo_count(mission_name, clean_date)
                 
                 try:
                     lon = float(parts[-2])
@@ -103,16 +92,18 @@ def fetch_rover_data(mission_name, target_id, start_date):
                     continue
                 
                 cursor.execute('''
-                    INSERT OR REPLACE INTO rover_telemetry 
-                    (mission_name, earth_date, lat, lon, sol, photos_taken, event_log) 
-                    VALUES (?, ?, ?, ?, ?, ?, ?)
-                ''', (mission_name, clean_date, lat, lon, sol_value, photo_val, "Normal Operations"))
-                count += 1 
-                time.sleep(0.5)  # This waits half a second before the next request
+                    INSERT INTO rover_telemetry 
+                    (mission_name, earth_date, lat, lon, sol) 
+                    VALUES (?, ?, ?, ?, ?)
+                ''', (mission_name, clean_date, lat, lon, sol_value))
+                count += 1
+                time.sleep(0.05)  # Speeds up processing safely 
         
         conn.commit()
         conn.close()
         print(f"✅ Success! Imported {count} points for {mission_name}.")
+    else:
+        print(f"⚠️ No telemetry blocks found in JPL response for {mission_name}.")
 
 if __name__ == "__main__":
     missions = [
