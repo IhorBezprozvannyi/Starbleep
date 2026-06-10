@@ -4,8 +4,6 @@ import os
 from datetime import datetime
 import time
 
-#archive for now!
-
 # --- HELPER FUNCTIONS ---
 
 def get_sol(mission_name, earth_date_str):
@@ -61,6 +59,19 @@ def fetch_rover_data(mission_name, target_id, start_date):
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
         
+        # 🏗️ AUTO-CREATE TABLE IF IT WENT MISSING
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS rover_telemetry (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                mission_name TEXT,
+                earth_date TEXT,
+                lat REAL,
+                lon REAL,
+                sol INTEGER
+            )
+        ''')
+        conn.commit()
+        
         count = 0 
         for line in data_lines:
             parts = line.strip().split()
@@ -81,16 +92,18 @@ def fetch_rover_data(mission_name, target_id, start_date):
                     continue
                 
                 cursor.execute('''
-                    INSERT OR REPLACE INTO rover_telemetry 
-                    (mission_name, earth_date, lat, lon, sol, photos_taken, event_log) 
-                    VALUES (?, ?, ?, ?, ?, ?, ?)
-                ''', (mission_name, clean_date, lat, lon, sol_value, "Normal Operations"))
-                count += 1 
-                time.sleep(0.5)  # This waits half a second before the next request
+                    INSERT INTO rover_telemetry 
+                    (mission_name, earth_date, lat, lon, sol) 
+                    VALUES (?, ?, ?, ?, ?)
+                ''', (mission_name, clean_date, lat, lon, sol_value))
+                count += 1
+                time.sleep(0.05)  # Speeds up processing safely 
         
         conn.commit()
         conn.close()
         print(f"✅ Success! Imported {count} points for {mission_name}.")
+    else:
+        print(f"⚠️ No telemetry blocks found in JPL response for {mission_name}.")
 
 if __name__ == "__main__":
     missions = [
