@@ -2,20 +2,30 @@ import {getRoverPath, getAllMissions} from "./getRoverInfo.js";
 import {getSpacedPosition} from "./filter.js"
 import { latLonToPercent } from "./latLonToPercent.js";
 
+
+
 const data = getAllMissions();
 const path = getRoverPath();
 
+const MISSION_POSITIONS = {
+    "Perseverance": { x: 77, y: 35 },
+    "Curiosity":    { x: 78, y: 55 },
+    "Opportunity":  { x: 55, y: 52 },
+    "Spirit":       { x: 88, y: 55 },
+};
+
 export async function display(element){
-    let path = await getRoverPath(element.name);
+    
+    const pos = MISSION_POSITIONS[element.name];
+    if (!pos) {
+        console.warn("No position defined for", element.name);
+        return;
+    }
+
     console.log("element:", element);
-    console.log("path:", path); 
-    let coords = path[(path.length) - 1]
-    console.log(coords)
-    let arr = latLonToPercent(coords.lat, coords.lon);
-    console.log(arr);
-    let x = arr[0];
-    let y = arr[1];
-    let [spacedX, spacedY] = getSpacedPosition(x, y, 5);
+
+    const [spacedX, spacedY] = getSpacedPosition(pos.x, pos.y, 5);
+    
     const div = document.createElement("div");
     div.className = "icon-wrapper";
     div.dataset.name = element.name;
@@ -24,7 +34,7 @@ export async function display(element){
 
     div.addEventListener("click", () => {
         window.location.href = `displayMachine.html?name=${element.name}`;
-});
+    });
 
-document.querySelector(".mars").appendChild(div);
+    document.querySelector(".mars").appendChild(div);
 }
