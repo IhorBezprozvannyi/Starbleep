@@ -3,6 +3,14 @@ import {display} from "./representMars.js";
 
 const placedPositions = []; // keep this outside display()
 
+const filterModal = document.getElementById("filterModal");
+const reopenBtn = document.getElementById("reopenFilter");
+const mars = document.querySelector(".mars");
+const nothing = document.querySelector(".nothing")
+
+mars.classList.add("blurred");
+
+
 export function getSpacedPosition(x, y, minDistance = 2) {
   let newX = x;
   let newY = y;
@@ -13,7 +21,6 @@ export function getSpacedPosition(x, y, minDistance = 2) {
     const distance = Math.sqrt(dx * dx + dy * dy);
     
     if (distance < minDistance) {
-      // push away from the conflicting position
       newX += dx < 0 ? -minDistance : minDistance;
       newY += dy < 0 ? -minDistance : minDistance;
     }
@@ -34,6 +41,9 @@ async function filter(year, type, status){
     placedPositions.length = 0;
     document.querySelector(".mars").innerHTML = '';
     const data = await getAllMissions();
+    if (!data){
+      nothing.classList.remove("hidden");
+    }
     console.log(data)
     
     const range = yearRanges[year];
@@ -52,6 +62,12 @@ async function filter(year, type, status){
             await display(element);
         }
     }
+    if (mars.innerHTML == ""){
+      nothing.classList.remove("hidden");
+    }
+    else{
+      nothing.classList.add("hidden");
+    }
 }
 
 document.querySelector("form").addEventListener("submit", (e) => {
@@ -60,7 +76,21 @@ document.querySelector("form").addEventListener("submit", (e) => {
     const type = document.querySelector("#type").value;
     const status = document.querySelector("#status").value;
 
+    filterModal.classList.add("hidden");
+    mars.classList.remove("blurred");
+    reopenBtn.style.display = "block";
+
     console.log(year, status, type)
 
-    filter(year, type, status);
+    placedPositions.length = 0;
+    mars.innerHTML = "";
+    filter(year, type, status)
+});
+
+reopenBtn.addEventListener("click", () => {
+    filterModal.classList.remove("hidden");
+    mars.classList.add("blurred");
+    reopenBtn.style.display = "none";
+    mars.innerHTML = "";
+    nothing.classList.add("hidden");
 });
