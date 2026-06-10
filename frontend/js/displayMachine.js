@@ -24,15 +24,11 @@ data.forEach(element => {
         `
         const moveDiv = document.querySelector(".movement").addEventListener("click", () => {
         window.location.href = `roadMap.html?name=${element.name}`;
-<<<<<<< HEAD
         });  
         
         const sensorDiv = document.querySelector(".sensor").addEventListener("click", () => {
         window.location.href = `sensorReadings.html?name=${element.name}`;
         }); 
-=======
-        });     
->>>>>>> 9e6cabd889c098bd04d2ebc6172dbbe78f727fb2
     }
     else{
         console.log("Rover not Found")
