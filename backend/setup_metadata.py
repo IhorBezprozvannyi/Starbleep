@@ -1,7 +1,11 @@
 import sqlite3
 import os
 
+<<<<<<< HEAD
+# Database setup
+=======
 # Database setup, idk its purpose yet
+>>>>>>> 9e6cabd889c098bd04d2ebc6172dbbe78f727fb2
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, "starbleep.db")
 
