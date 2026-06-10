@@ -1,22 +1,3 @@
-<<<<<<< HEAD
-import kagglehub
-import os
-
-# 1. This downloads the dataset structure to your cache
-path = kagglehub.dataset_download("nikitamanaenkov/meda-mars-weather-and-atmosphere-sensor-data")
-
-# 2. This FORCE PRINTS every single file name in that 6GB folder
-print("\n--- SCANNING DATASET FILES ---")
-file_count = 0
-for root, dirs, files in os.walk(path):
-    for file in files:
-        if file.endswith(".csv"):
-            print(f"FILE FOUND: {file}")
-            file_count += 1
-
-print(f"\nTotal CSV files found: {file_count}")
-
-=======
 import requests
 import re
 
@@ -81,4 +62,3 @@ with requests.get(file_url, stream=True, timeout=5) as data_r:
             print(f"   Searching deeper... Checked {line_count} rows of initialization data...", end="\r")
             
     print(f"\n❌ Checked all {line_count} rows but couldn't find active environment readings.")
->>>>>>> 9e6cabd889c098bd04d2ebc6172dbbe78f727fb2

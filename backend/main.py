@@ -3,8 +3,6 @@ from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 import sqlite3
 import os
-<<<<<<< HEAD
-=======
 import requests
 
 import json
@@ -15,7 +13,6 @@ def get_meda_data():
             return json.load(f)
     except FileNotFoundError:
         return {"error": "Mars data file not found. Run scraper.py first!"}
->>>>>>> 9e6cabd889c098bd04d2ebc6172dbbe78f727fb2
 
 app = FastAPI()
 
@@ -64,8 +61,6 @@ def get_rover_path(rover_name: str):
         return {"error": f"No telemetry data found for {rover_name}"}
     return [dict(row) for row in rows]
 
-<<<<<<< HEAD
-# --- 3. IMAGE GALLERY FEED ---
 @app.get("/missions/{rover_name}/images")
 async def get_rover_images(rover_name: str):
     conn = sqlite3.connect(DB_PATH)
@@ -77,7 +72,7 @@ async def get_rover_images(rover_name: str):
     if not rows:
         return {"error": f"No images found for {rover_name}"}
     return [dict(row) for row in rows]
-=======
+
 def fetch_nasa_weather(sol: int):
     # Official NASA Mars 2020 Weather Feed (contains the last ~7 Sols)
     url = "https://mars.nasa.gov/rss/api/?feed=weather&category=mars2020&feedtype=json"
@@ -139,7 +134,6 @@ async def meda_telemetry(sol: int):
         "platform": "Perseverance Rover",
         "data": data
     }
->>>>>>> 9e6cabd889c098bd04d2ebc6172dbbe78f727fb2
 
 # --- 4. THE FULL DASHBOARD ---
 @app.get("/", response_class=HTMLResponse)
@@ -148,10 +142,6 @@ def home():
     <html>
         <body style="font-family: 'Courier New', monospace; padding: 50px; background: #0b0d17; color: #e0e0e0; line-height: 1.6;">
             <div style="max-width: 800px; margin: auto; text-align: center;">
-<<<<<<< HEAD
-=======
-            
->>>>>>> 9e6cabd889c098bd04d2ebc6172dbbe78f727fb2
                 <h1 style="color: #ff4d4d; border-bottom: 2px solid #333; padding-bottom: 20px;">🚀 Starbleep Fleet Command</h1>
                 <p>Global Mission Registry: <a style="color: #4cc9f0;" href="/missions/all">/missions/all</a></p>
                 
@@ -174,8 +164,6 @@ def home():
                 <hr style="border: 1px solid #333; margin-top: 40px;">
                 <p style="color: #00ff00; font-size: 0.8em;">Status: 10/10 Missions Active in API 🟢</p>
             </div>
-<<<<<<< HEAD
-=======
             <div>
             # Update this section in your HTML string:
 <p><b>Perseverance:</b> 
@@ -184,7 +172,6 @@ def home():
     <a style="color: #00ff00;" href="/missions/perseverance/sensors/322">Sensors (Sol 322)</a>
 </p>
 </div>
->>>>>>> 9e6cabd889c098bd04d2ebc6172dbbe78f727fb2
         </body>
     </html>
     """

@@ -8,10 +8,7 @@ main{
     height: 85vh;
     width: 100%;
     overflow: hidden;
-<<<<<<< HEAD
     position: relative;
-=======
->>>>>>> 9e6cabd889c098bd04d2ebc6172dbbe78f727fb2
 }
 
 h1{
@@ -19,7 +16,6 @@ h1{
 }
 
 .top{
-<<<<<<< HEAD
     border: #ffffff 0.15vw solid;
     position: absolute;
     height: 60vh; 
@@ -49,16 +45,6 @@ h1{
 
 form{
     height: 25vh;
-=======
-    height: 40%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-}
-
-form{
->>>>>>> 9e6cabd889c098bd04d2ebc6172dbbe78f727fb2
     z-index: 2;
     display: flex;
     flex-direction: column;
@@ -81,11 +67,7 @@ select {
     border: 0.2vw white solid;
     border-radius: 2vw;
     vertical-align: middle;
-<<<<<<< HEAD
     font-size: 1.3vw;
-=======
-    font-size: 1.5vw;
->>>>>>> 9e6cabd889c098bd04d2ebc6172dbbe78f727fb2
     padding-left: 1vw;
     transition: 0.2s ease;
 }
@@ -110,7 +92,6 @@ button{
     height: 2.5vw;
 }
 
-<<<<<<< HEAD
 button:hover{
     border-color:#d38a68 ;
     box-shadow: 0 0 2vw black;
@@ -118,8 +99,6 @@ button:hover{
     cursor: pointer;
 }
 
-=======
->>>>>>> 9e6cabd889c098bd04d2ebc6172dbbe78f727fb2
 .box{
     position: relative;
     width: 100%;
@@ -129,7 +108,6 @@ button:hover{
 .mars{
     position: absolute;
     width: 80vw;
-<<<<<<< HEAD
     height: 40vw;
     top: 50%;
     left: 50%;
@@ -154,17 +132,6 @@ button:hover{
     background-image:url(../img/mars1.jpg) ;
     transform: translate(-50%, -50%);
     box-shadow: 0 0 10vw rgb(0, 0, 0) inset;
-=======
-    height: 80vw;
-    border-radius: 50%;
-    left: 50%;
-    transform: translate(-50%, 5%) rotateZ(-50deg);
-    background-image: url(../img/mars1.jpg); 
-    background-position: fixed;
-    background-repeat: no-repeat;
-    background-size: 100%;
-    box-shadow: 0 0 5vw rgb(0, 0, 0) inset;  
->>>>>>> 9e6cabd889c098bd04d2ebc6172dbbe78f727fb2
 }
 
 .moon{
@@ -191,7 +158,6 @@ button:hover{
     cursor: pointer;
 }
 
-<<<<<<< HEAD
 @keyframes fadeIn {
     from { opacity: 0; transform: translate(-50%, -50%) scale(0); }
     to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
@@ -211,15 +177,6 @@ button:hover{
 
 .icon-wrapper::before {
     content: attr(data-name);
-=======
-.icon-wrapper {
-    position: absolute;
-    transform: rotate(45deg);
-}
-
-.icon-wrapper::before {
-    content: attr(data-name); /* 👈 pulls the rover name from the attribute */
->>>>>>> 9e6cabd889c098bd04d2ebc6172dbbe78f727fb2
     display: none;
     position: absolute;
     bottom: 110%;
@@ -236,7 +193,6 @@ button:hover{
 
 .icon-wrapper:hover::before {
     display: block;
-<<<<<<< HEAD
 }
 
 .filter-reopen {
@@ -278,6 +234,4 @@ button:hover{
 
 .nothing h1{
     margin: 0;
-=======
->>>>>>> 9e6cabd889c098bd04d2ebc6172dbbe78f727fb2
 }
