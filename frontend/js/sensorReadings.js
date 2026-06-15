@@ -55,3 +55,5 @@ document.querySelector("#nextSol").addEventListener("click", () => {
         updateChart(currentSol);
     }
 });
+
+updateChart(currentSol);
