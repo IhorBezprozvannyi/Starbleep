@@ -10,5 +10,10 @@ export async function getAllMissions(){
     return data;
 }
 
+export async function getPressure(roverName, sol) {
+    const data = await(await fetch(`http://127.0.0.1:8000/missions/${roverName}/sensors/${sol}`)).json();
+    console.log("getting the pressure...")
+    return data;
+}
 
 //py -m uvicorn main:app --reload
