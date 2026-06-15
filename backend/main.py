@@ -21,6 +21,19 @@ CURIOSITY_DB = os.path.join(BASE_DIR, "curiosity.db")
 PERSEVERANCE_DB = os.path.join(BASE_DIR, "perseverance.db")
 
 # --- PATH ENDPOINT ---
+@app.get("/missions/all")
+async def get_all_missions(body: str = None):
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    if body:
+        cursor.execute("SELECT * FROM mission_details WHERE LOWER(celestial_body) = LOWER(?)", (body,))
+    else:
+        cursor.execute("SELECT * FROM mission_details")
+    rows = cursor.fetchall()
+    conn.close()
+    return [dict(row) for row in rows]
+
 @app.get("/missions/{rover_name}/path")
 def get_rover_path(rover_name: str):
     conn = sqlite3.connect(DB_PATH)
