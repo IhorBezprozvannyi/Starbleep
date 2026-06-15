@@ -33,7 +33,7 @@ def get_ps_csv_url(folder_url):
         return None
 
 def fetch_all():
-    conn = sqlite3.connect("starbleep.db")
+    conn = sqlite3.connect("perseverance.db")
     cursor = conn.cursor()
     
     # Create table if not exists
