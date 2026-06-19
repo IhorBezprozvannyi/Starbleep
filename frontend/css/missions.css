@@ -102,6 +102,13 @@ button:hover{
     transform: scale(1.1);
 }
 
+button:hover{
+    border-color:#d38a68 ;
+    box-shadow: 0 0 2vw black;
+    text-shadow: none;
+    cursor: pointer;
+}
+
 .box{
     position: relative;
     width: 100%;

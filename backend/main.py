@@ -19,6 +19,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, "starbleep.db")
 CURIOSITY_DB = os.path.join(BASE_DIR, "curiosity.db")
 PERSEVERANCE_DB = os.path.join(BASE_DIR, "perseverance.db")
+MER_DB = os.path.join(BASE_DIR, "mer_data.db")
 
 # --- PATH ENDPOINT ---
 @app.get("/missions/all")
@@ -39,12 +40,15 @@ def get_rover_path(rover_name: str):
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
+    
+    # I added 'total_distance_km' and 'photos_taken' to the SELECT statement
     cursor.execute("""
-        SELECT earth_date, sol, lat, lon
+        SELECT earth_date, sol, lat, lon, total_distance_km
         FROM rover_telemetry 
         WHERE mission_name = ? COLLATE NOCASE 
         ORDER BY earth_date ASC
     """, (rover_name,))
+    
     rows = cursor.fetchall()
     conn.close()
     return [dict(row) for row in rows]
@@ -135,6 +139,41 @@ async def get_chart_data(rover_name: str, sol: int, step: int = 10):
     
     return {"labels": [], "data": []}
 
+@app.get("/missions/{rover_name}/atmospheric_opacity")
+async def get_mer_opacity(rover_name: str):
+    if rover_name.lower() not in ["spirit", "opportunity"]:
+        return {"error": "Invalid rover"}
+    
+    if os.path.exists(MER_DB):
+        conn = sqlite3.connect(MER_DB)
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        
+        # We now include L_s and R_AU in the SELECT
+        query = """
+            SELECT sol, 
+                   MAX(L_s) as l_s,
+                   MAX(R_AU) as r_au,
+                   MAX(CASE WHEN filter = 'Left_440nm' THEN tau END) as tau_440,
+                   MAX(CASE WHEN filter = 'Right_880nm' THEN tau END) as tau_880
+            FROM atmospheric_opacity
+            WHERE rover = ? COLLATE NOCASE
+            GROUP BY sol
+            ORDER BY sol ASC
+        """
+        
+        cursor.execute(query, (rover_name,))
+        rows = cursor.fetchall()
+        conn.close()
+        
+        return {
+            "rover": rover_name,
+            "data": [dict(row) for row in rows]
+        }
+    
+    return {"data": []}
+
+# --- DASHBOARD ---
 # --- DASHBOARD ---
 @app.get("/", response_class=HTMLResponse)
 def home():
@@ -162,10 +201,19 @@ def home():
                         rovers.forEach(r => {
                             let div = document.createElement('div');
                             div.className = 'rover-card';
+                            
+                            // Logic to add Atmospheric link for MER rovers
+                            let atmosLink = '';
+                            const name = r.toLowerCase();
+                            if (name === 'spirit' || name === 'opportunity') {
+                                atmosLink = `<a href="/missions/${r}/atmospheric_opacity">View Atmospheric Data</a>`;
+                            }
+
                             div.innerHTML = `
                                 <strong>${r.toUpperCase()}</strong><br>
                                 <a href="/missions/${r}/path">View Telemetry Path</a>
                                 <a href="/missions/${r}/sensors/1">View Sensor Data</a>
+                                ${atmosLink}
                             `;
                             container.appendChild(div);
                         });
