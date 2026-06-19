@@ -15,11 +15,13 @@ data.forEach(element => {
         document.querySelector(".left").innerHTML = 
         `
             <div class="inner">
-                <h2>Type: ${element.mission_type}</h2>
-                <h2>Destination: ${element.celestial_body}</h2>
-                <h2>Date of Launch: ${element.launch_year} </h2>
-                <h2>Status: ${element.status}</h2>
                 <img class="roverImage" src="../img/${element.name}.jpg" alt="">
+                <div class="description hidden">
+                    <h2>Type: ${element.mission_type}</h2>
+                    <h2>Destination: ${element.celestial_body}</h2>
+                    <h2>Date of Launch: ${element.launch_year} </h2>
+                    <h2>Status: ${element.status}</h2>
+                </div>            
             </div>
         `
         const moveDiv = document.querySelector(".movement").addEventListener("click", () => {
@@ -28,7 +30,20 @@ data.forEach(element => {
         
         const sensorDiv = document.querySelector(".sensor").addEventListener("click", () => {
         window.location.href = `sensorReadings.html?name=${element.name}`;
-        }); 
+        });
+
+        const descriptionDiv = document.querySelector(".description");
+        const roverImage = document.querySelector(".roverImage");
+
+        roverImage.addEventListener("click", () => {
+            descriptionDiv.classList.toggle("hidden");
+            roverImage.classList.toggle("hidden");
+        });
+
+        descriptionDiv.addEventListener("click", () => {
+            descriptionDiv.classList.toggle("hidden");
+            roverImage.classList.toggle("hidden");
+        });
     }
     else{
         console.log("Rover not Found")
