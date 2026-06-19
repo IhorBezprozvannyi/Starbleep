@@ -2,5 +2,5 @@ for ignoring, .env, venv/, __pycache__/.
 per_ps.json
 starbleep.db
 curiosity.db
+perserverance.db
 *.json
-*.db
