@@ -8,10 +8,10 @@ const data = getAllMissions();
 const path = getRoverPath();
 
 const MISSION_POSITIONS = {
-    "Perseverance": { x: 77, y: 35 },
-    "Curiosity":    { x: 78, y: 55 },
-    "Opportunity":  { x: 55, y: 52 },
-    "Spirit":       { x: 88, y: 55 },
+    "Perseverance": { x: 70, y: 35 },
+    "Curiosity":    { x: 80, y: 50},
+    "Opportunity":  { x: 50, y: 45 },
+    "Spirit":       { x: 95, y: 55 },
 };
 
 export async function display(element){
