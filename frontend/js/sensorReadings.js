@@ -25,27 +25,51 @@ const pressureChart = new Chart(ctx, {
     },
     options: {
         responsive: true,
+        plugins: {
+            legend: {
+                labels: {
+                    color: '#ffffff',
+                    font: { size: 20 }
+                }
+            }
+        },
         scales: {
         x: {
-            title: { display: true, text: 'Time (LTST)', color: '#ffffff',font: {size: 12}},
-            ticks: { color: '#ffffff' },
+            title: { display: true, text: 'Time (LTST)', color: '#ffffff',font: {size: 20}},
+            ticks: { color: '#ffffff', font: {size: 16} },
             grid: { color: 'rgba(255,255,255,0.1)' },
         },
         y: {
-            title: { display: true, text: 'Pressure (Pa)', color: '#ffffff',font: {size: 12} },
-            ticks: { color: '#ffffff' }, 
+            title: { display: true, text: 'Pressure (Pa)', color: '#ffffff',font: {size: 20} },
+            ticks: { color: '#ffffff', font: {size: 16} }, 
             grid: { color: 'rgba(255,255,255,0.1)' },
-            font: {
-                size: 12
-            }
         }
         }
     }
 });
 
-async function updateChart(sol) {
-    const result = await getPressure(roverName, sol);
+async function updateChart(sol, direction) {
+    const loadingEl = document.querySelector("#loading");
+    let showLoading = false;
+    console.log(loadingEl)
+
+    const timer = setTimeout(() => {
+        showLoading = true;
+        loadingEl.style.display = "flex";
+    }, 500);
+
+    let result = await getPressure(roverName, sol)
+    while (result.timeline.length === 0) {
+        if (direction === "prev") sol--;
+        else sol++;
+        result = await getPressure(roverName, sol);
+    }
+    currentSol = sol;
     const data = result.timeline;
+    clearTimeout(timer);
+    if (showLoading) {
+        loadingEl.style.display = "none";
+    }
     document.querySelector("#sol").textContent = `Sol ${sol}`;
     pressureChart.data.labels = data.map(r => r.ltst.split(" ")[1]);
     pressureChart.data.datasets[0].data = data.map(r => r.pressure);
@@ -54,15 +78,15 @@ async function updateChart(sol) {
 
 
 document.querySelector("#prevSol").addEventListener("click", () => {
-    if (currentSol > 0) {
+    if (currentSol > 1) {
         currentSol--;
-        updateChart(currentSol);
+        updateChart(currentSol, "prev");
     }
 });
 
 document.querySelector("#nextSol").addEventListener("click", () => {
         currentSol++;
-        updateChart(currentSol);
+        updateChart(currentSol, "next");
 });
 
 updateChart(currentSol);

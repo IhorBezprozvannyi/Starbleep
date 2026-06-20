@@ -11,6 +11,10 @@ main{
     border: 1px solid #ccc;
     border-radius: 2vw;
     background-color: #121212;
+    transition: 0.3s ease;
+}
+.section:hover{
+    background-color: #000000;
 }
 .section h2, .section h3{
     margin: 1vw 0;
@@ -21,4 +25,10 @@ main{
     border-left: 0.5vw solid #007BFF;
     border-radius: 2vw;
     background-color: #3d454e;
+    transition: 0.2s ease;
+}
+.step:hover{
+    padding: 1.2vw;
+    border-left-color: #009700;
+    background-color: #3e4e3d;
 }

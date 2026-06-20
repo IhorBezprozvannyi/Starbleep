@@ -11,36 +11,42 @@ main{
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 18vh;
-    border-color: green;
+    flex-direction: column;
+    height: 25vh;
 }
 .top h1{
     font-size: 6vw;
     margin: 0;
     padding: 0;
-    color: #d38a68;
 }
 .mapBox{
     border-radius: 2vw;
-    background-color: #0000004d;
-    border: 0.15vw solid white;
     position: relative;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    height: 65vh;
-    border-color: #d38a68;
+    height: 58vh;
+    border-color: #ffffff;
     width: 90%;
 }
 .map{
-    border-color: blue;
+    border-radius: 2vw;
+    border: 0.15vw solid #ffffff;
     height: 50vh;
-    width: 60%;
+    width: 50%;
+    background-color: #0000004d;
+}
+.dot{
+    transition: 0.2s;
+}
+.dot:hover{
+    r: 20;
 }
 .right{
     width: 40%;
     height: 55vh;
+    border-radius: 2vw;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -52,15 +58,16 @@ main{
     align-items: center;
 }
 .topRight button{
-    background-color: #d38a68;
-    border: #d38a68 solid 0.15vw;
+    background-color: #0000004d;
+    border-radius: 2vw;
+    border: #ffffff solid 0.15vw;
     width: 5vw;
     height: 2.5vw;
     font-size: 1.5vw;
     transition: 0.2s;
 }
 .topRight button:hover{
-    background-color: rgba(0, 0, 0, 0.5);
+    transform: scale(1.1);
 }
 .topRight h3{
     font-size: 2vw;
@@ -68,7 +75,7 @@ main{
 }
 .grid{
     display: grid;
-    grid-template-columns: 13vw 13vw;
+    grid-template-columns: 15vw 15vw;
     justify-content: center;
     align-items: center;
     row-gap: 1vw;
@@ -77,13 +84,12 @@ main{
 .select{
     height: 20vh;
     border-radius: 1vw;
-    background-color: #d38a68;
-    border: 0.15vw solid #d38a68;
+    background-color: #0000004d;
+    border: 0.15vw solid #ffffff;
     padding: 1vw;
     transition: 0.2s;
 }
 .select:hover{
-    background-color: rgba(0, 0, 0, 0.5);
     transform: scale(1.1);
 }
 .select h3{

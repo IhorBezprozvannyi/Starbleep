@@ -102,13 +102,6 @@ button:hover{
     transform: scale(1.1);
 }
 
-button:hover{
-    border-color:#d38a68 ;
-    box-shadow: 0 0 2vw black;
-    text-shadow: none;
-    cursor: pointer;
-}
-
 .box{
     position: relative;
     width: 100%;
@@ -142,30 +135,6 @@ button:hover{
     background-image:url(../img/mars1.jpg) ;
     transform: translate(-50%, -50%);
     box-shadow: 0 0 10vw rgb(0, 0, 0) inset;
-}
-
-.moon{
-    position: absolute;
-    width: 80vw;
-    height: 80vw;
-    border-radius: 50%;
-    left: 50%;
-    transform: translate(-50%, 5%);
-    filter: brightness(80%);
-    background-image: url(../img/moon2.jpg); 
-    filter: brightness(100%);
-    background-position: fixed;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    box-shadow: 0 0 5vw rgb(0, 0, 0) inset;  
-}
-
-.moonselect:hover{
-    border-color: #acaeaf ;
-    box-shadow: 0 0 2vw black;
-    text-shadow: none;
-    cursor: pointer;
 }
 
 @keyframes fadeIn {
@@ -246,3 +215,45 @@ button:hover{
 .nothing h1{
     margin: 0;
 }
+
+.moon{
+    position: absolute;
+    width: 80vw;
+    height: 40vw;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 4vw;
+    background-image: url(../img/moon_map.jpg); 
+    background-position: fixed;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    box-shadow: 0 0 5vw rgb(0, 0, 0) inset; 
+    object-fit: fill;
+    opacity: 1;
+    transition: 0.2s;
+    filter:brightness(80%);
+}
+
+.moon.blurred{
+    filter: brightness(100%);
+    width: 50vw;
+    height: 50vw;
+    border-radius: 50%;
+    background-image:url(../img/moon2.jpg) ;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10vw rgb(0, 0, 0) inset;
+}
+
+.moontop:hover{
+    border: #acaeaf 0.15vw solid;
+    box-shadow: 0 0 5vw black;
+}
+
+.moonselect:hover{
+    border-color: #acaeaf ;
+    box-shadow: 0 0 2vw black;
+    text-shadow: none;
+    cursor: pointer;
+}
+
