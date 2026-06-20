@@ -7,7 +7,7 @@ def upgrade():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     
-    # Adding the new columns to your existing table
+    # Adding new columns 
     columns = [
         "sol INTEGER",
         "total_distance_km REAL",
