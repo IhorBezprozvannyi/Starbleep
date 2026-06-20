@@ -15,7 +15,7 @@ data.forEach(element => {
         document.querySelector(".left").innerHTML = 
         `
             <div class="inner">
-                <img class="roverImage" src="../img/${element.name}.jpg" alt="">
+                <img class="roverImage" src="../img/${element.name.toLowerCase()}.jpg" alt="">
                 <div class="description hidden">
                     <h2>Type: ${element.mission_type}</h2>
                     <h2>Destination: ${element.celestial_body}</h2>
@@ -24,6 +24,7 @@ data.forEach(element => {
                 </div>            
             </div>
         `
+        console.log(element.name.toLowerCase());
         const moveDiv = document.querySelector(".movement").addEventListener("click", () => {
         window.location.href = `roadMap.html?name=${element.name}`;
         });  
