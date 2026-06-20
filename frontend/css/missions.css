@@ -30,7 +30,6 @@ h1{
     align-items: center;
     z-index: 3;
     background-color: #0000006e;
-    backdrop-filter: blur(4px);
     box-shadow: 0 0 3vw black;
     transition: 0.2s;
 }
@@ -41,6 +40,7 @@ h1{
 
 .top:hover{
     border: #d38a68 0.15vw solid;
+    box-shadow: 0 0 5vw black;
 }
 
 form{
@@ -77,6 +77,7 @@ select:hover{
     box-shadow: 0 0 2vw black;
     text-shadow: none;
     cursor: pointer;
+    transform: scale(1.1);
 }
 
 option{
@@ -90,6 +91,15 @@ button{
     border: 0.2vw solid white;
     width: 10vw;
     height: 2.5vw;
+    transition: 0.2s ease;
+}
+
+button:hover{
+    border-color:#4bbf57 ;
+    box-shadow: 0 0 2vw black;
+    text-shadow: none;
+    cursor: pointer;
+    transform: scale(1.1);
 }
 
 button:hover{
@@ -205,6 +215,7 @@ button:hover{
     cursor: pointer;
     color: white;
     transition: 0.2s ease;
+    margin-right: 1vw;
 }
 
 .filter-reopen:hover {

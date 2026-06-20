@@ -1,0 +1,24 @@
+main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.section{
+    width: 80%;
+    margin: 1.5vw;
+    padding: 2vw;
+    border: 1px solid #ccc;
+    border-radius: 2vw;
+    background-color: #121212;
+}
+.section h2, .section h3{
+    margin: 1vw 0;
+}
+.step{
+    margin: 1vw 0;
+    padding: 1vw;
+    border-left: 0.5vw solid #007BFF;
+    border-radius: 2vw;
+    background-color: #3d454e;
+}

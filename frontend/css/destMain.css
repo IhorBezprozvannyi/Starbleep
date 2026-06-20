@@ -67,12 +67,14 @@ button{
     border-color:#d38a68 ;
     box-shadow: 0 0 2vw black;
     text-shadow: none;
+    transform: scale(1.05);
 }
 
 .bmoon:hover{
     border-color:#acaeaf ;
     box-shadow: 0 0 2vw black;
     text-shadow: none;
+    transform: scale(1.05);
 }
 
 .box{
