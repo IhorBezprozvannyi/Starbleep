@@ -110,7 +110,7 @@ nav a:hover::after {
 }
 
 .logo:hover{
-
+    transform: scale(1.1);
     border: 0.1vw solid rgb(255, 255, 255);
     box-shadow: 0 0 1.5vw rgba(255, 255, 255, 0.219);
 }
@@ -124,4 +124,28 @@ nav a:hover::after {
 
 select:focus{
     outline: none;
+}
+
+#downloadFullJSON{
+    border-radius: 50%;
+    width: 5vw;
+    height: 5vw;
+    border: 0.1vw solid rgba(255, 255, 255, 0.534);
+    background-color: rgba(0, 0, 0, 0.253);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 5vw;
+    transition: 0.2s ease;
+}
+
+#downloadFullJSON:hover{
+    transform: scale(1.1);
+    border: 0.1vw solid rgb(255, 255, 255);
+    box-shadow: 0 0 1.5vw rgba(255, 255, 255, 0.219);
+}
+
+#downloadFullJSON img {
+    width: 60%;
+    height: 60%;
 }

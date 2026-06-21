@@ -82,3 +82,13 @@ document.querySelector("#right").addEventListener("click", () => {
 });
 
 drawPath(start);
+
+async function downloadFullJSON() {
+    const blob = new Blob([JSON.stringify(path, null, 2)], { type: "application/json" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `${roverName}_Rover_Movement.json`;
+    link.click();
+}
+
+document.querySelector("#downloadFullJSON").addEventListener("click", downloadFullJSON);

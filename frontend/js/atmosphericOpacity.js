@@ -126,3 +126,14 @@ document.querySelector("#tauToggle").addEventListener("change", (e) => {
 });
 
 updateChart();
+
+
+function downloadFullJSON() {
+    const blob = new Blob([JSON.stringify(rawData.data, null, 2)], { type: "application/json" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `${roverName}_Atmospheric_Opacity.json`;
+    link.click();
+}
+
+document.querySelector("#downloadFullJSON").addEventListener("click", downloadFullJSON);

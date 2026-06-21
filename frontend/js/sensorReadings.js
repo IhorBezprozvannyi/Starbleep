@@ -90,3 +90,17 @@ document.querySelector("#nextSol").addEventListener("click", () => {
 });
 
 updateChart(currentSol);
+
+async function downloadFullJSON(currentSol) {
+    const rawData = await getPressure(roverName, currentSol)
+    const blob = new Blob([JSON.stringify(rawData.timeline, null, 2)], { type: "application/json" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `${roverName}_Pressure_Data_Sol_${currentSol}.json`;
+    link.click();
+}
+const rawData = await getPressure(roverName, currentSol)
+console.log(rawData.timeline)
+document.querySelector("#downloadFullJSON").addEventListener("click", () => {
+    downloadFullJSON(currentSol);}
+);
