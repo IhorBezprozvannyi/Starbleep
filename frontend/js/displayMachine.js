@@ -30,7 +30,15 @@ data.forEach(element => {
         });  
         
         const sensorDiv = document.querySelector(".sensor").addEventListener("click", () => {
-        window.location.href = `sensorReadings.html?name=${element.name}`;
+            if (roverName == "Perseverance" || roverName == "Curiosity"){
+                window.location.href = `sensorReadings.html?name=${element.name}`;
+            }
+            else if (roverName == "Spirit" || roverName == "Opportunity"){
+                window.location.href = `atmosphericOpacity.html?name=${element.name}`
+            }
+            else{
+                window.location.href = `main.html`
+            }
         });
 
         const descriptionDiv = document.querySelector(".description");

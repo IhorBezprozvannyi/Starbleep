@@ -10,6 +10,7 @@
 <body>
     <nav>
         <div class="logoDiv">
+            <button id="backButton" onclick="window.history.back()"><img src="../img/back.svg" alt=""></button>
             <img src="../img/logo_placeholder.svg" alt="logo" class="logo" onclick="window.location.replace('./main.html')">
         </div>
         <div class="barDiv">
@@ -42,7 +43,7 @@
                         <option value="Inactive">Inactive</option>
                     </select>
                 </div>
-                <button>Filter</button>
+                <button class="filter">Filter</button>
             </form>
         </div>
         <div class="box">

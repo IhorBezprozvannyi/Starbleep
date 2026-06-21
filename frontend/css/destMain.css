@@ -53,7 +53,7 @@ span{
     margin-top: 3vw;
 }
 
-button{
+.bmoon, .bmars{
     border: 0.2vw white solid;
     border-radius: 2vw;
     background-color: rgba(0, 0, 0, 0);

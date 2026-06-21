@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="../css/atmosphericOpacity.css">
     <link rel="stylesheet" href="../css/general.css">
-    <link rel="stylesheet" href="../css/sensorReadings.css">
 </head>
 <body>
     <nav>
@@ -23,18 +23,24 @@
             
         </div>
         <div class="solNavigation">
-            <button id="prevSol">Previous Sol</button>
-            <h2 id="sol">1</h2>
-            <button id="nextSol">Next Sol</button>
+            <button class="chunk" id="prevChunk">Previous Chunk</button>
+            <h2 id="solRange"></h2>
+            <button class="chunk" id="nextChunk">Next Chunk</button>
+        </div>
+        <div class="tau">
+            <select id="tauToggle">
+                <option value="tau_440">τ at 440nm</option>
+                <option value="tau_880">τ at 880nm</option>
+            </select>
         </div>
         <div class="readings">
-            <canvas id="pressureChart">
+            <canvas id="opacityChart">
 
             </canvas>
         </div>
         <div id="loading"><img src="../img/loading.svg" alt=""></div>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script type="module" src="../js/sensorReadings.js"></script>
+    <script type="module" src="../js/atmosphericOpacity.js"></script>
 </body>
 </html>

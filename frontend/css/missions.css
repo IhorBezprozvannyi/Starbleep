@@ -84,7 +84,7 @@ option{
     color: black;
 }
 
-button{
+.filter{
     font-size: 1.5vw;
     background-color: rgba(0, 0, 0, 0);
     border-radius: 2vw;
@@ -94,7 +94,7 @@ button{
     transition: 0.2s ease;
 }
 
-button:hover{
+.filter:hover{
     border-color:#4bbf57 ;
     box-shadow: 0 0 2vw black;
     text-shadow: none;

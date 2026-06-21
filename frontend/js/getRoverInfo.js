@@ -16,4 +16,10 @@ export async function getPressure(roverName, sol) {
     return data;
 }
 
+export async function getOpacity(roverName){
+    const data = await(await fetch(`https://130-61-111-189.sslip.io/missions/${roverName}/atmospheric_opacity`)).json();
+    console.log("getting the opacity...")
+    return data;
+}
+
 //py -m uvicorn main:app --reload

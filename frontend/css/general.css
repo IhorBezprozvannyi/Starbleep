@@ -69,6 +69,28 @@ nav a:hover::after {
     width: 100%;
 }
 
+#backButton {
+    width: 3vw;
+    height: 5vw;;
+    border-radius: 2vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    margin-right: 2vw;
+    transition: 0.2s ease;
+}
+
+#backButton:hover{
+    transform: scale(1.5);
+}
+
+#backButton img{
+    width: 100%;
+    height: 100%;
+}
+
 .logoDiv{
     display: flex;
     justify-content: start;
@@ -98,4 +120,8 @@ nav a:hover::after {
     width: 50%;
     justify-content: right;
     align-items: center;
+}
+
+select:focus{
+    outline: none;
 }
